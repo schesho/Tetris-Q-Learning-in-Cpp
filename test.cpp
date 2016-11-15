@@ -121,15 +121,14 @@ int Game(vector<float>& Q1,int number_of_rounds,float alpha,float gamma){
 	return height;
 }
 int main() {
-	vector<float> Q(4096,0);
 
 
 	ofstream myfile;
 	myfile.open ("example.txt");
 	for (int i=1;i<100;i++){
-
+		vector<float> Q(4096,0);
 		myfile<<"alpha = "<<0.002*i;
-		for (int j=0;j<400;j++){
+		for (int j=0;j<401;j++){
 		int height=Game(Q,10000,0.002*i,0.9);
 			if ((j%25)==0){
 				myfile<<" "<<j<<":"<<height;
