@@ -17,10 +17,12 @@ private:
 public:
 	Piece();
 	virtual ~Piece();
-	void SetAll(int,int);
+	void SetAll(int,int);//first one is the piece type, second one how the piece is rotated
 	int GetType(void);
 	vector<int> GetShape(void);
 	int GetRotation(void);
+
+	int GetNumberOfPossibleRotation(void);//using the type of the piece give number of shapes that we obtain turning the piece around
 };
 
 #endif /* PIECE_H_ */

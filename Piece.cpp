@@ -132,3 +132,18 @@ int Piece::GetRotation(){
 }
 
 
+
+int Piece::GetNumberOfPossibleRotation(){
+	if (_type==1){
+		return 1;
+	}
+	else if(_type==2 or _type==5){
+		return 2;
+	}
+	else if (_type==3){
+		return 4;
+	}
+	else{
+		return 3;
+	}
+}

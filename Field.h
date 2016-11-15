@@ -18,6 +18,7 @@ private:
 	Piece _piece;/*type of piece falling from 1 to 5 (check the documentation)*/
 public:
 	Field();
+	Field(vector<int>,int,Piece);
 	virtual ~Field();
 	/*below are getters and setters*/ 
 	int GetHeight(void);
@@ -26,11 +27,11 @@ public:
 	void SetTtl(vector<int>);
 
 	Piece GetPiece(void);
-	void SetPiece(int,int);
+	void SetPiece(int,int);//set type and rotation
 
 
 	/*using _piece.GetShape() and _ttl MakeMove an output given is changing _ttl*/
-	bool MakeMove(int);
+	vector<int> MakeMove(int);
 
 
 };

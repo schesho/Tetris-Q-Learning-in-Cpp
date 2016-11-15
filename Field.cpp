@@ -26,6 +26,12 @@ Field::Field(){
 
 }
 
+Field::Field(vector<int> ttl,int h, Piece p){
+	_ttl=ttl;
+	_height=h;
+	_piece=p;
+}
+
 Field::~Field() {
 	// TODO Auto-generated destructor stub
 }
@@ -58,10 +64,10 @@ void Field::SetPiece(int type,int rotation){
 
 
 
-bool Field::MakeMove(int position){
+vector<int> Field::MakeMove(int position){
 	int type=_piece.GetType();
 	vector<int> shape=_piece.GetShape();
-
+	vector<int> ttl_rep(13,0);//first 12 integers represent the new ttl, the 13 how height has changed
 	vector <int> tfl(24,0); /*an intermediate top four levels, which are the original top two levels + 2 levels of zeros*/
 
 	for(int i=0;i<12;i++){
@@ -110,32 +116,30 @@ bool Field::MakeMove(int position){
 			fourth_row=1;
 		}
 	}
-	_height=_height+std::max(0,first_row+second_row+third_row+fourth_row);//how height is changing
+	ttl_rep[12]=_height+std::max(0,first_row+second_row+third_row+fourth_row);//how height is changing
 	if (fourth_row==1){
-		cout<<1<<endl;
 		for (int i=0;i<12;i++){
-			_ttl[i]=tfl[i+12];
+			ttl_rep[i]=tfl[i+12];
 		}
 	}
 
 	else if (third_row==1){
-		cout<<2<<endl;
 		if (second_row==0){
 			for (int i=0;i<12;i++){
-				_ttl[i]=tfl[i+6];
+				ttl_rep[i]=tfl[i+6];
 			}
 		}
 
 		else if (first_row==0){
 			for (int i=0;i<6;i++){
-				_ttl[i]=tfl[i];
-				_ttl[i+6]=tfl[i+12];
+				ttl_rep[i]=tfl[i];
+				ttl_rep[i+6]=tfl[i+12];
 			}
 		}
 		else{
 			for (int i=0;i<6;i++){
-				_ttl[i]=tfl[i+12];
-				_ttl[i+6]=0;
+				ttl_rep[i]=tfl[i+12];
+				ttl_rep[i+6]=0;
 
 			}
 		}
@@ -143,13 +147,11 @@ bool Field::MakeMove(int position){
 	}
 
 	else{
-		cout<<3<<endl;
 		for (int i=0;i<12;i++){
-			_ttl[i]=tfl[i];
+			ttl_rep[i]=tfl[i];
 		}
 	}
 
-
-	return true;
+	return ttl_rep;
 
 }
