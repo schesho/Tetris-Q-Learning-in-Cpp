@@ -1,0 +1,6 @@
+Définition du jeu de tetris selon l'article: 
+les figures tombent de haut en bas ce qui ne permet pas certain coups possible dans le vrai tetris (comme bouger à gauche au dernier moment et par cela combler un vide (existentiel) pottentiel )
+
+En essayant de définir le jeu autrement, en autorisant de mettre la nouvelle pièce à n'importe quel endroit libre ( à la puzzle), les résultats sont beaucoup moins bon.
+
+Avec le jeux définit comme à la première définition on obtient bien les résultats de Melaz.

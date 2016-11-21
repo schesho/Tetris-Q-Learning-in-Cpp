@@ -14,6 +14,7 @@
 #include <math.h> 
 #include <stdlib.h> 
 #include <fstream>
+#include <algorithm> 
 using namespace std;
 
 int GetArgUtility(vector<int> ttl){
@@ -40,8 +41,9 @@ vector<int> ChoosePositionRotation(Piece piece, vector<int> ttl,vector<float> Q)
 		int type=piece.GetType();
 		int rotation_number=piece.GetNumberOfPossibleRotation();
 		Field f(ttl,0,piece);
-		int pos=0;
-		int rot=1;
+		vector<int> pos;
+		vector<int> rot;
+		int reward;
 		float arg=numeric_limits<int>::min();
 		vector<int> ttl2;
 		for (int i=1;i<rotation_number+1;i++){
@@ -50,17 +52,27 @@ vector<int> ChoosePositionRotation(Piece piece, vector<int> ttl,vector<float> Q)
 			
 			for(int j=0;j<5;j++){
 				ttl2=f.MakeMove(j);
+				reward=-100*ttl2[12];
 				ttl2=vector<int>(ttl2.begin(),ttl2.end()-1);
-				if(Q[GetArgUtility(ttl2)]>arg){
-					pos=j;
-					rot=i;
-					arg=Q[GetArgUtility(ttl2)];
+				if(reward+0.8*Q[GetArgUtility(ttl2)]>arg){
+					pos.clear();
+					rot.clear();
+					pos.push_back(j);
+					rot.push_back(i);
+					arg=0.8*Q[GetArgUtility(ttl2)]+reward;
+				}
+				else if (reward+0.8*Q[GetArgUtility(ttl2)]==arg){
+					pos.push_back(j);
+					rot.push_back(i);
+				}
 				}
 			}
-		}
+		
+		int rand_pos=rand()%pos.size();
+		int rand_rot=rand()%rot.size();
 		vector<int> rep(2);
-		rep[0]=pos;
-		rep[1]=rot;
+		rep[0]=pos[rand_pos];
+		rep[1]=rot[rand_rot];
 		return rep;
 	}
 
@@ -85,35 +97,14 @@ int Game(vector<float>& Q1,int number_of_rounds,float alpha,float gamma){
 		pos_rot=ChoosePositionRotation(piece,ttl,Q1);
 		f.SetPiece(piece_type,pos_rot[1]);
 		ttl_inter=f.MakeMove(pos_rot[0]);
-		/*if( i<10){
-		cout<<"piece_type: "<<piece_type<<" "<<"rotation "<<pos_rot[1]<<endl;
-		cout<<"position: "<<pos_rot[0]<<endl;
-		cout<<"premier:"<<endl;
-		for (int i=0;i<6;i++){
-			cout<<ttl[6+i]<<" ";
-		}
-		cout<<endl;
-		for (int i=0;i<6;i++){
-			cout<<ttl[i]<<" ";
-		}
-		cout<<endl;
-		cout<<"second: "<<endl;
-		for (int i=0;i<6;i++){
-			cout<<ttl_inter[6+i]<<" ";
-		}
-		cout<<endl;
-		for (int i=0;i<6;i++){
-			cout<<ttl_inter[i]<<" ";
-		}
-		cout<<endl<<endl;
-
-		}*/
 		ttl=vector<int>(ttl_inter.begin(),ttl_inter.end()-1);
 		f.SetHeight(ttl_inter[12]);
 		reward=-100*(ttl_inter[12]-height);
+
 		height=ttl_inter[12];
 		f.SetTtl(ttl);
 		arg_ttl_2=GetArgUtility(ttl);
+
 		Q1[arg_ttl]=(1-alpha)*Q1[arg_ttl]+alpha*(reward+gamma*Q1[arg_ttl_2]);
 		arg_ttl=arg_ttl_2;
 
@@ -121,9 +112,44 @@ int Game(vector<float>& Q1,int number_of_rounds,float alpha,float gamma){
 	return height;
 }
 int main() {
+	vector<float> Q(4096,0);
+	float alpha=0.02;
+	for (int j=0;j<300;j++){
+		int height=Game(Q,10000,alpha,0.8);
+		cout<<"jeu numéro: "<<j<<endl;
+		cout<<"hauteur: "<<height<<endl<<endl;
+		vector<float>::iterator n=max_element(Q.begin(),Q.end());
 
+		cout<<"max:"<<*n<<endl;
+		vector<int> ttl=TtlFromArg(distance(Q.begin(),n));
+		cout<<"ce qui represente le niveau:"<<endl;
+			for (int i=0;i<6;i++){
+			cout<<ttl[6+i]<<" ";
+			}
+			cout<<endl;
+				for (int i=0;i<6;i++){
+					cout<<ttl[i]<<" ";
+				}
+				cout<<endl;
 
-	ofstream myfile;
+			
+		n=min_element(Q.begin(),Q.end());
+
+		cout<<"min:"<<*n<<endl;
+		ttl=TtlFromArg(distance(Q.begin(),n));
+		cout<<"ce qui represente le niveau:"<<endl;
+			for (int i=0;i<6;i++){
+			cout<<ttl[6+i]<<" ";
+			}
+			cout<<endl;
+				for (int i=0;i<6;i++){
+					cout<<ttl[i]<<" ";
+				}
+				cout<<endl;
+
+			}
+		
+	/*ofstream myfile;
 	myfile.open ("example.txt");
 	for (int i=1;i<100;i++){
 		vector<float> Q(4096,0);
@@ -138,7 +164,7 @@ int main() {
 		myfile<<endl;
 
 	}
-	myfile.close();
+	myfile.close();*/
 	/*for (int i=0;i<4096;i++){
 
 		if (Q[i]!=0){
@@ -155,12 +181,13 @@ int main() {
 		}
 		}
 	}
-	}
-	vector<int> ttl(12,0);
+	}*/
+
+	/*vector<int> ttl(12,0);
 	Piece piece;
-	piece.SetAll(4,3);
+	piece.SetAll(2,2);
 	Field f(ttl,0,piece);
-	vector<int> ttl_inter=f.MakeMove(4);
+	vector<int> ttl_inter=f.MakeMove2(4);
 	cout<<"premier:"<<endl;
 		for (int i=0;i<6;i++){
 			cout<<ttl[6+i]<<" ";
@@ -171,6 +198,7 @@ int main() {
 		}
 		cout<<endl;
 		cout<<"second: "<<endl;
+		cout<<"height: "<<ttl_inter[12]<<endl;
 		for (int i=0;i<6;i++){
 			cout<<ttl_inter[6+i]<<" ";
 		}
@@ -178,10 +206,25 @@ int main() {
 		for (int i=0;i<6;i++){
 			cout<<ttl_inter[i]<<" ";
 		}
-		cout<<endl<<endl;*/
+		cout<<endl<<endl;
+
+	f.SetPiece(5,2);
+	f.SetTtl(ttl_inter);
+	ttl_inter=f.MakeMove2(4);
+			cout<<"tiers: "<<endl;
+			cout<<"height: "<<ttl_inter[12]<<endl;
+		for (int i=0;i<6;i++){
+			cout<<ttl_inter[6+i]<<" ";
+		}
+		cout<<endl;
+		for (int i=0;i<6;i++){
+			cout<<ttl_inter[i]<<" ";
+		}
+		cout<<endl<<endl;
 
 
-	return 0;
+
+	return 0;*/
 			
 	}
 	//TODO: prendre une pièce random rendre les états possible après (selon comment on la tourne et où on la place), en prendre le meilleur
