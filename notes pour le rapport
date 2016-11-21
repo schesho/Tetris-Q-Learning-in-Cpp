@@ -4,3 +4,7 @@ les figures tombent de haut en bas ce qui ne permet pas certain coups possible d
 En essayant de définir le jeu autrement, en autorisant de mettre la nouvelle pièce à n'importe quel endroit libre ( à la puzzle), les résultats sont beaucoup moins bon.
 
 Avec le jeux définit comme à la première définition on obtient bien les résultats de Melaz.
+
+
+Dans le code de Melaz le Q learning est bizarre, car au lieu de chercher arg max(Q(a)) sur a il chercher arg max(R+Q(a))
+l'algo marche cependant seulement dans ce cas là ¯\_(ツ)_/¯
