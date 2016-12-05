@@ -1,10 +1,11 @@
-Définition du jeu de tetris selon l'article: 
-les figures tombent de haut en bas ce qui ne permet pas certain coups possible dans le vrai tetris (comme bouger à gauche au dernier moment et par cela combler un vide (existentiel) pottentiel )
+Définition du jeu de tetris selon l'article:
 
-En essayant de définir le jeu autrement, en autorisant de mettre la nouvelle pièce à n'importe quel endroit libre ( à la puzzle), les résultats sont beaucoup moins bon.
+Les figures tombent de haut en bas ce qui ne permet pas certain coups possible dans le vrai Tetris (comme bouger à gauche au dernier moment et par cela combler un vide (existentiel) potentiel )
 
-Avec le jeux définit comme à la première définition on obtient bien les résultats de Melaz.
+En essayant de définir le jeu autrement, en autorisant de mettre la nouvelle pièce à n'importe quel endroit libre (à la puzzle), les résultats sont beaucoup moins bon.
+
+Avec le jeux défini comme à la première définition on obtient bien les résultats de Melaz.
 
 
-Dans le code de Melaz le Q learning est bizarre, car au lieu de chercher arg max(Q(a)) sur a il chercher arg max(R+Q(a))
+Dans le code de Melaz le Q learning est bizarre, car au lieu de chercher arg max(Q(a)) sur a il cherche arg max(R+Q(a))
 l'algo marche cependant seulement dans ce cas là ¯\_(ツ)_/¯
