@@ -61,7 +61,7 @@ void UpdateQTable(float* pQ,float* best_utility_and_action,Field f, Piece p, flo
     pQ[state1] = (1 - alpha) * pQ[state1] + alpha * (-100 * (h2-h1) + gamma * pQ[state2]);
 }
 
-void Game_training(float *pQ, int number_of_pieces, float alpha, float gamma){
+void Game_training(float* pQ, int number_of_pieces, float alpha, float gamma){
 
     Field f;
 
@@ -76,23 +76,19 @@ void Game_training(float *pQ, int number_of_pieces, float alpha, float gamma){
         f.MakeMove(p, a[1], a[2]);
 
         f.Display();
+
+        cout << f.GetHeight() << endl;
     }
 }
 
 
 int main(){
-    int p[3];
-
-    float pQ[4096];
+    float* pQ = new float[4096];
     for(int i=0; i<4096; i++){
         pQ[i] = 0;
     }
 
-
-
-
-
-    Game_training(pQ, 100, 0.4, 0.4);
+    Game_training(pQ, 10000, 0.4, 0.4);
 
 
 }
