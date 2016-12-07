@@ -1,39 +1,25 @@
-/*
- * field.h
- *
- *  Created on: Nov 10, 2016
- *      Author: sel
- */
-#include "Piece.h"
-#include <vector>
-using namespace std;
+//
+// Created by Nicolas on 07/12/16.
+//
 
-#ifndef FIELD_H_
-#define FIELD_H_
+#ifndef TETRIS_RL_FIELD_H
+#define TETRIS_RL_FIELD_H
+
 
 class Field {
 private:
-	vector<int> _ttl;/*top two levels :12 length array of 0 and 1 representing the 2 top levels of the game*/
-	int _height; /*current height*/
-	Piece _piece;/*type of piece falling from 1 to 5 (check the documentation)*/
+    // _state est un int compris entre 0 et 4095, son écriture représente l'état du jeu
+    int _state;
+    int _height;
+
 public:
-	Field();
-	Field(vector<int>,int,Piece);
-	virtual ~Field();
-	/*below are getters and setters*/ 
-	int GetHeight(void);
-	void SetHeight(int);
-	vector<int> GetTtl(void);
-	void SetTtl(vector<int>);
-
-	Piece GetPiece(void);
-	void SetPiece(int,int);//set type and rotation
+    Field();
+    virtual ~Field();
+    int GetHeight(void);
+    int GetState(void);
+    void NextHeight();
+}
+;
 
 
-	/*using _piece.GetShape() and _ttl MakeMove an output given is changing _ttl*/
-	vector<int> MakeMove(int);
-
-
-};
-#endif /* FIELD_H_ */
-
+#endif //TETRIS_RL_FIELD2_H

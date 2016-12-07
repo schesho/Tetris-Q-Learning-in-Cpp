@@ -7,8 +7,8 @@
 //============================================================================
 
 #include <iostream>
-#include "Field.h"
-#include "Piece.h"
+#include "Field_old.h"
+#include "Piece_old.h"
 #include <vector>
 #include <limits>
 #include <math.h> 
@@ -112,6 +112,8 @@ int Game(vector<float>& Q1,int number_of_rounds,float alpha,float gamma){
 	return height;
 }
 int main() {
+
+	cout << 2&&6;
 	vector<float> Q(4096,0);
 	float alpha=0.02;
 	for (int j=0;j<300;j++){
