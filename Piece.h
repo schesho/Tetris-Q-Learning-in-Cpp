@@ -15,6 +15,7 @@ public:
     // Rotation anti-horaire
     void Rotate(int nb_rotations);
     int GetShape(void);
+    // int GetNumberOfPossibleRotation(void);
 
 };
 

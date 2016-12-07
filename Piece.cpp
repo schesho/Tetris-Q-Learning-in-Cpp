@@ -21,19 +21,19 @@ void Piece::Rotate(int nb_rotations){
     for(int i = 0; i<nb_rotations; i++){
         int new_shape = 0;
 
-        if (1&_shape !=0){
+        if ((1&_shape) != 0){
             new_shape += 64;
         }
 
-        if (2&_shape !=0){
+        if ((2&_shape) != 0){
             new_shape += 1;
         }
 
-        if (64&_shape !=0){
+        if ((64&_shape) != 0){
             new_shape += 128;
         }
 
-        if (128&_shape !=0){
+        if ((128&_shape) != 0){
             new_shape += 2;
         }
 

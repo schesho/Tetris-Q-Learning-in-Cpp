@@ -5,6 +5,7 @@
 #ifndef TETRIS_RL_FIELD_H
 #define TETRIS_RL_FIELD_H
 
+#include "Piece.h"
 
 class Field {
 private:
@@ -17,7 +18,10 @@ public:
     virtual ~Field();
     int GetHeight(void);
     int GetState(void);
+    // void PrintState(void);
     void NextHeight();
+    void MakeMove(Piece &p, int rotation, int position);
+    void Display(void);
 }
 ;
 

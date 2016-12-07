@@ -22,7 +22,7 @@ public:
 	vector<int> GetShape(void);
 	int GetRotation(void);
 
-	int GetNumberOfPossibleRotation(void);//using the type of the piece give number of shapes that we obtain turning the piece around
+	//using the type of the piece give number of shapes that we obtain turning the piece around
 };
 
 #endif /* PIECE_H_ */
