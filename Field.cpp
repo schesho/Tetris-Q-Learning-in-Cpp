@@ -34,6 +34,7 @@ void Field::NextHeight() {
 }
 
 void Field::Display(){
+
     int s = _state;
 
     cout << endl;
@@ -52,7 +53,6 @@ void Field::Display(){
     cout << endl;
 
     for(int i=5; i > -1 ;i--){
-
         if (pow(2, i) <= s) {
             cout << "1 ";
             s -= pow(2, i);
@@ -62,7 +62,6 @@ void Field::Display(){
         }
     }
     cout << endl;
-
 }
 
 void Field::MakeMove(Piece &p, int rotation, int position) {

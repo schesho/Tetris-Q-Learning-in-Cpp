@@ -2,6 +2,8 @@
 // Created by Nicolas on 07/12/16.
 //
 
+//TODO : Gravity of pieces (Newton) : if(_shape&1 + _shape&2 = 0) alors apple (pour toi Yoan)
+
 #ifndef TETRIS_RL_FIELD_H
 #define TETRIS_RL_FIELD_H
 
@@ -18,7 +20,6 @@ public:
     virtual ~Field();
     int GetHeight(void);
     int GetState(void);
-    // void PrintState(void);
     void NextHeight();
     void MakeMove(Piece &p, int rotation, int position);
     void Display(void);
