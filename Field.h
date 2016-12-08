@@ -1,5 +1,5 @@
 //
-// Created by Nicolas on 07/12/16.
+// Created by SrS on 07/12/16.
 //
 
 //TODO : Gravity of pieces (Newton) : if(_shape&1 + _shape&2 = 0) alors apple (pour toi Yoan)
@@ -21,7 +21,7 @@ public:
     int GetHeight(void);
     int GetState(void);
     void NextHeight();
-    void MakeMove(Piece &p, int rotation, int position);
+    void MakeMove(Piece p, int rotation, int position);
     void Display(void);
 }
 ;

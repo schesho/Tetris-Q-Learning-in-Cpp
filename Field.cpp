@@ -1,9 +1,9 @@
 //
-// Created by Nicolas on 07/12/16.
+// Created by SrS on 07/12/16.
 //
 
 #include "Field.h"
-#include "Math.h"
+#include <math.h>
 #include <iostream>
 #include <vector>
 #include <limits>
@@ -64,22 +64,43 @@ void Field::Display(){
     cout << endl;
 }
 
-void Field::MakeMove(Piece &p, int rotation, int position) {
-    // position < 6
+void Field::MakeMove(Piece p, int rotation, int position) {
+    // position < 5
 
     p.Rotate(rotation);
-
-    int piece_shape = int(p.GetShape() * pow(2, position));
+    int h = 0;
+    int piece_shape = p.GetShape() <<position;//using bitwise operator << to move the piece
 
 
     if ((piece_shape&_state) == 0){
         _state = _state|piece_shape;
-    } else if ((64*piece_shape&_state) == 0){
-        _state = (_state | (64 * piece_shape)) / 32;
-        _height += 1;
+
+    } else if (((64*piece_shape)&_state) == 0){
+        _state = _state | (64 * piece_shape);
+        h += 1;
 
     } else {
         _state = piece_shape;
+        h += 2;
         _height += 2;
     }
+
+
+    if ((_state&(4095-63)) == (4095-63)){
+        h-=1;
+        _state -= (4095-63);
+        _state += ((_state/4096)*64-4096*(_state/4096));
+    }
+    if ((_state&63) == 63){
+        h -= 1;
+        _state /= 64;
+    }
+
+
+    if(h == 1){
+        _state /= 64;
+        _height += 1;
+    }
+
+
 }

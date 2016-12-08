@@ -1,5 +1,5 @@
 //
-// Created by Nicolas on 07/12/16.
+// Created by SrS on 07/12/16.
 //
 
 //TODO: Enlever pièce qui vaut 0
@@ -12,7 +12,10 @@
 using namespace std;
 
 Piece::Piece(){
+    _shape=0;
+while(_shape==0){
     _shape = 1 * (rand()%2) + 2 * (rand()%2) + 64 * (rand()%2) + 128 * (rand()%2);
+    }
 }
 
 Piece::~Piece() {
@@ -45,4 +48,39 @@ void Piece::Rotate(int nb_rotations){
 
 int Piece::GetShape(void) {
     return _shape;
+}
+
+void Piece::Display(){
+    if ((128&_shape)!=0){
+        cout<<"1 ";
+    }
+    else{
+        cout<<"0 ";
+    }
+
+    if ((64&_shape)!=0){
+        cout<<"1 ";
+    }
+    else{
+        cout<<"0 ";
+    }
+
+    cout<<endl;
+
+    if ((2&_shape)!=0){
+        cout<<"1 ";
+    }
+    else{
+        cout<<"0 ";
+    }
+
+    if ((1&_shape)!=0){
+        cout<<"1 ";
+    }
+    else{
+        cout<<"0 ";
+    }
+
+    cout<<endl;
+
 }

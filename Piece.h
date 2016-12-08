@@ -1,5 +1,5 @@
 //
-// Created by Nicolas on 07/12/16.
+// Created by SrS on 07/12/16.
 //
 
 #ifndef TETRIS_RL_PIECE_H
@@ -15,6 +15,7 @@ public:
     // Rotation anti-horaire
     void Rotate(int nb_rotations);
     int GetShape(void);
+    void Display();
     // int GetNumberOfPossibleRotation(void);
 
 };
