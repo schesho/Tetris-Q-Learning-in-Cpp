@@ -1,4 +1,4 @@
-# tetris_rl
+# Tetris Reinforcment Learning in C++
 
 C++ tetris reinforcement learning project
 
