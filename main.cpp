@@ -34,15 +34,14 @@ float* ChooseBestAction(Field& current_field, Piece& current_piece, const float*
             
             int reward = -100 * (f.GetHeight() - initial_height);
             float u = pQ[f.GetState()];
+
             if ((reward +gamma * u) >= best_utility_and_action[0]) {
                 best_utility_and_action[0] = reward +gamma * u;
                 best_utility_and_action[1] = i;
                 best_utility_and_action[2] = j;
-
             }
         }
     }
-
     return best_utility_and_action;
 }
 
@@ -117,6 +116,7 @@ void Game_display(float* pQ,int number_of_pieces){
 
 
 int main(){
+	cout<<"------------------------------------------------------------------------------------------------"<<endl;
     float* pQ = new float[4096];
     for(int i=0; i<4096; i++){
         pQ[i] = 0;
@@ -124,7 +124,7 @@ int main(){
     for (int j = 0;j < 400;j++){
     	cout << "jeux numéro:" << j << endl;
 
-      Game_training(pQ, 10000, 0.02, 0.9);
+      Game_training(pQ, 10000, 0.02, 0.8);
   	}
 
   	//Game_display(pQ,100);

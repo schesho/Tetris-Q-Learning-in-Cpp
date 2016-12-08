@@ -69,8 +69,15 @@ void Field::MakeMove(Piece p, int rotation, int position) {
 
     p.Rotate(rotation);
     int h = 0;
-    int piece_shape = p.GetShape() <<position;//using bitwise operator << to move the piece
+    int piece_shape = p.GetShape();
 
+
+    //if after the rotation the piece is present only on the second level we push it on the bottom
+    if(((piece_shape&1)+(piece_shape&2))==0){
+        piece_shape/=64;
+    }
+
+    piece_shape= piece_shape<<position;//using bitwise operator << to move the piece
 
     if ((piece_shape&_state) == 0){
         _state = _state|piece_shape;
@@ -85,7 +92,7 @@ void Field::MakeMove(Piece p, int rotation, int position) {
         _height += 2;
     }
 
-
+    //removing full lines:
     if ((_state&(4095-63)) == (4095-63)){
         h-=1;
         _state -= (4095-63);
@@ -96,7 +103,7 @@ void Field::MakeMove(Piece p, int rotation, int position) {
         _state /= 64;
     }
 
-
+    //if h>1 the first level is lost
     if(h == 1){
         _state /= 64;
         _height += 1;
