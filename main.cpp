@@ -79,7 +79,7 @@ void Game_training(float* pQ, int number_of_pieces, float alpha, float gamma){
 
         //cout<<pQ[f.GetState()]<<endl;
         f.MakeMove(p, a[1], a[2]);
-
+        delete[] a;
         //f.Display();
 
         //cout << f.GetHeight() << endl;
@@ -99,13 +99,14 @@ void Game_display(float* pQ,int number_of_pieces){
 	    p.Display();
 	    float *a = ChooseBestAction(f, p, pQ,0);
 
+
 		//cout<<endl;
 	    //cout<<pQ[f.GetState()]<<endl;
 
 	    //cout<<pQ[f.GetState()]<<endl;
 	    f.MakeMove(p, a[1], a[2]);
-
 	    f.Display();
+	    delete[] a;
 
 	    cout << f.GetHeight() << endl;
     }
@@ -121,11 +122,12 @@ int main(){
     for(int i=0; i<4096; i++){
         pQ[i] = 0;
     }
-    for (int j = 0;j < 400;j++){
+    for (int j = 0;j < 10000;j++){
     	cout << "jeux numéro:" << j << endl;
 
       Game_training(pQ, 10000, 0.02, 0.8);
   	}
+  	delete[] pQ;
 
   	//Game_display(pQ,100);
 }
