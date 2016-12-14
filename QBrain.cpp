@@ -90,9 +90,10 @@ BestActionAndUtility QBrain::ChooseBestAction(Field current_field, Piece current
 
 void QBrain::Train(int number_of_games, int number_of_pieces) {
 
+    cout << "Training the QBrain..." << endl;
+    for (int j = 0; j < number_of_games; j++) {
         Field f;
-
-        for (int i=0 ; i<number_of_pieces ; i++){
+        for (int i = 0; i < number_of_pieces; i++) {
 
             Piece p;
 
@@ -113,10 +114,9 @@ void QBrain::Train(int number_of_games, int number_of_pieces) {
 
             // cout << f.GetHeight() << endl;
         }
-        //cout<<"hauteur "<<f.GetHeight()<<endl;
-        //cout<<"position finale :" << endl;
-        //f.Display();
     }
+    cout << endl;
+}
 
 int QBrain::Game(int number_of_pieces) {
         Field f;

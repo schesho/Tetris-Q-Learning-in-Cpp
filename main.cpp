@@ -15,7 +15,7 @@ int main(){
 
     QBrain Q;
 
-    Q.Train(10000,10000);
+    Q.Train(1000,10000);
 
     Q.Game(10000);
 }
