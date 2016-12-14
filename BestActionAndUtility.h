@@ -10,7 +10,7 @@ class BestActionAndUtility {
 private:
     float _utility;
     int _best_action1;
-    float _best_action2;
+    int _best_action2;
 public:
     BestActionAndUtility();
     ~BestActionAndUtility();

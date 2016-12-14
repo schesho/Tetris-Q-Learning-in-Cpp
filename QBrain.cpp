@@ -9,7 +9,7 @@ using namespace std;
 QBrain::QBrain() {
     _alpha = 0.02;
     _gamma = 0.8;
-    _reward_coefficient = -100;
+    _reward_coefficient = 100;
     _pQ = new float[4096];
     for(int i=0; i<4096; i++){
         _pQ[i] = 0;
@@ -62,7 +62,6 @@ void QBrain::Update(BestActionAndUtility best_action_and_utility, Field f, Piece
 }
 
 BestActionAndUtility QBrain::ChooseBestAction(Field current_field, Piece current_piece) {
-//BestActionAndUtility ChooseBestAction(Field& current_field, Piece& current_piece, const float* pQ, float gamma) {
 
     BestActionAndUtility best_utility_and_action;
 
@@ -125,16 +124,14 @@ int QBrain::Game(int number_of_pieces) {
         for (int i=0 ; i<number_of_pieces ; i++){
 
             Piece p;
-
             cout << "piece: " << endl;
-
             p.Display();
 
             BestActionAndUtility a = ChooseBestAction(f, p);
 
             //cout<<endl;
 
-            //cout<<pQ[f.GetState()]<<endl;
+            // cout<<_pQ[f.GetState()]<<endl;
 
             f.MakeMove(p, a.GetBestAction1(), a.GetBestAction2());
 
@@ -143,9 +140,8 @@ int QBrain::Game(int number_of_pieces) {
             //delete[] a;
 
             cout << f.GetHeight() << endl;
+            cout << endl;
         }
-        cout << "hauteur " << f.GetHeight() << endl;
-        cout << "position finale :" << endl;
-        f.Display();
+        cout << "Final height: " << f.GetHeight() << endl;
     }
 
