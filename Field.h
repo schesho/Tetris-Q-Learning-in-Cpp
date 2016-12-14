@@ -1,5 +1,7 @@
 //
 // Created by SrS on 07/12/16.
+// This file contains the main information for the field class
+// The information of the state of the game will be gather here
 //
 
 

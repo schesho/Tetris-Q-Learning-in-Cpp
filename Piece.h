@@ -1,6 +1,8 @@
 //
 // Created by SrS on 07/12/16.
+// This file contains the main information for the piece class
 //
+
 
 #ifndef TETRIS_RL_PIECE_H
 #define TETRIS_RL_PIECE_H

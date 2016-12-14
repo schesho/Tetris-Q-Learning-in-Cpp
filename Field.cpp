@@ -1,7 +1,11 @@
 //
 // Created by SrS on 07/12/16.
+// This file contains the main information for the field class
+// The information of the state of the game will be gather here
 //
 
+
+// IMPORTATIONS
 #include "Field.h"
 #include <math.h>
 #include <iostream>
@@ -12,6 +16,8 @@
 #include <fstream>
 using namespace std;
 
+
+// Definition of a specific constructor
 Field::Field(){
     _state = 0;
     _height = 0;
