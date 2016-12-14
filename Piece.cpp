@@ -2,7 +2,6 @@
 // Created by SrS on 07/12/16.
 //
 
-//TODO: Enlever pièce qui vaut 0
 
 #include "Piece.h"
 

@@ -2,9 +2,14 @@
 // Created by SrS on 07/12/16.
 //
 
+// emscripten JS + C++
+// enlever magic numbers
+
+
 
 #include <iostream>
 #include "Field.h"
+#include "BestActionAndUtility.h"
 #include "Piece.h"
 #include <vector>
 #include <limits>
@@ -15,16 +20,11 @@
 using namespace std;
 
 
-float* ChooseBestAction(Field& current_field, Piece& current_piece, const float* pQ, float gamma) {
-    // Attention aux fuites mémoire
+BestActionAndUtility ChooseBestAction(Field& current_field, Piece& current_piece, const float* pQ, float gamma) {
 
-    float* best_utility_and_action = new float[3];
-    best_utility_and_action[0] = -std::numeric_limits<float>::max();
-    best_utility_and_action[1] = 0;
-    best_utility_and_action[2] = 0;
+    BestActionAndUtility best_utility_and_action = BestActionAndUtility();
+
     int initial_height = current_field.GetHeight();
-
-
 
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 5; j++) {
@@ -35,23 +35,23 @@ float* ChooseBestAction(Field& current_field, Piece& current_piece, const float*
             int reward = -100 * (f.GetHeight() - initial_height);
             float u = pQ[f.GetState()];
 
-            if ((reward +gamma * u) >= best_utility_and_action[0]) {
-                best_utility_and_action[0] = reward +gamma * u;
-                best_utility_and_action[1] = i;
-                best_utility_and_action[2] = j;
+            if ((reward +gamma * u) >= best_utility_and_action.GetUtility()) {
+                best_utility_and_action.SetUtility(reward +gamma * u);
+                best_utility_and_action.SetBestAction1(i);
+                best_utility_and_action.SetBestAction2(j);
             }
         }
     }
     return best_utility_and_action;
 }
 
-void UpdateQTable(float* pQ,float* best_utility_and_action,Field f, Piece p, float alpha,float gamma){
+void UpdateQTable(float* pQ, BestActionAndUtility& best_utility_and_action,Field& f, Piece& p, float alpha, float gamma){
 
     int state1 = f.GetState();
 
     int h1 = f.GetHeight();
 
-    f.MakeMove(p, int(best_utility_and_action[1]), int(best_utility_and_action[2]));
+    f.MakeMove(p, best_utility_and_action.GetBestAction1(), best_utility_and_action.GetBestAction2());
 
     int state2 = f.GetState();
 
@@ -70,7 +70,7 @@ void Game_training(float* pQ, int number_of_pieces, float alpha, float gamma){
 
         //cout<<"piece: "<<endl;
         //p.Display();
-        float *a = ChooseBestAction(f, p, pQ, gamma);
+        BestActionAndUtility a = ChooseBestAction(f, p, pQ, gamma);
 
 		//cout<<endl;
         //cout<<pQ[f.GetState()]<<endl;
@@ -78,8 +78,9 @@ void Game_training(float* pQ, int number_of_pieces, float alpha, float gamma){
         UpdateQTable(pQ, a, f, p, alpha, gamma);
 
         //cout<<pQ[f.GetState()]<<endl;
-        f.MakeMove(p, a[1], a[2]);
-        delete[] a;
+        f.MakeMove(p, a.GetBestAction1(), a.GetBestAction2());
+
+        //delete[] a;
         //f.Display();
 
         //cout << f.GetHeight() << endl;
@@ -96,17 +97,22 @@ void Game_display(float* pQ,int number_of_pieces){
 	    Piece p;
 
 	    cout<<"piece: "<<endl;
-	    p.Display();
-	    float *a = ChooseBestAction(f, p, pQ,0);
+
+        p.Display();
+
+	    BestActionAndUtility a = ChooseBestAction(f, p, pQ,0);
 
 
-		//cout<<endl;
-	    //cout<<pQ[f.GetState()]<<endl;
+		cout<<endl;
+	    cout<<pQ[f.GetState()]<<endl;
 
-	    //cout<<pQ[f.GetState()]<<endl;
-	    f.MakeMove(p, a[1], a[2]);
-	    f.Display();
-	    delete[] a;
+	    cout<<pQ[f.GetState()]<<endl;
+
+	    f.MakeMove(p, a.GetBestAction1(), a.GetBestAction2());
+
+        f.Display();
+
+        //delete[] a;
 
 	    cout << f.GetHeight() << endl;
     }
@@ -122,11 +128,12 @@ int main(){
     for(int i=0; i<4096; i++){
         pQ[i] = 0;
     }
-    for (int j = 0;j < 10000;j++){
-    	cout << "jeux numéro:" << j << endl;
+    for (int j = 0;j < 300;j++){
+    	cout << "Jeu numéro:" << j << endl;
 
       Game_training(pQ, 10000, 0.02, 0.8);
   	}
+    Game_display(pQ, 10);
   	delete[] pQ;
 
   	//Game_display(pQ,100);
