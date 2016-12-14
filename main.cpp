@@ -37,9 +37,7 @@ BestActionAndUtility ChooseBestAction(Field& current_field, Piece& current_piece
             float u = pQ[f.GetState()];
 
             if ((reward + gamma * u) >= best_utility_and_action.GetUtility()) {
-                //cout << "Utility update" << best_utility_and_action.GetUtility()<<endl;
                 best_utility_and_action.SetUtility(reward + gamma * u);
-                //cout << "Utility update" << best_utility_and_action.GetUtility()<<endl;
                 best_utility_and_action.SetBestAction1(i);
                 best_utility_and_action.SetBestAction2(j);
             }
@@ -54,8 +52,6 @@ void UpdateQTable(float* pQ, BestActionAndUtility& best_utility_and_action, Fiel
     int state1 = f.GetState();
 
     int h1 = f.GetHeight();
-
-    cout << "Best action " << best_utility_and_action.GetBestAction1() << endl;
 
     f.MakeMove(p, best_utility_and_action.GetBestAction1(), best_utility_and_action.GetBestAction2());
 
@@ -74,22 +70,22 @@ void Game_training(float* pQ, int number_of_pieces, float alpha, float gamma){
 
         Piece p;
 
-        cout<<"piece: "<<endl;
-        p.Display();
+        // cout<<"piece: "<<endl;
+        //p.Display();
         BestActionAndUtility a = ChooseBestAction(f, p, pQ, gamma);
 
-		cout<<endl;
-        cout<<pQ[f.GetState()]<<endl;
+		// cout<<endl;
+        // cout<<pQ[f.GetState()]<<endl;
 
         UpdateQTable(pQ, a, f, p, alpha, gamma);
 
-        cout<<pQ[f.GetState()]<<endl;
+        // cout<<pQ[f.GetState()]<<endl;
         f.MakeMove(p, a.GetBestAction1(), a.GetBestAction2());
 
 
-        f.Display();
+        //f.Display();
 
-        cout << f.GetHeight() << endl;
+        // cout << f.GetHeight() << endl;
     }
     cout<<"hauteur "<<f.GetHeight()<<endl;
     cout<<"position finale :" << endl;
@@ -98,6 +94,7 @@ void Game_training(float* pQ, int number_of_pieces, float alpha, float gamma){
 
 void Game_display(float* pQ,int number_of_pieces){
 	Field f;
+
     for (int i=0 ; i<number_of_pieces ; i++){
 
 	    Piece p;
@@ -108,10 +105,9 @@ void Game_display(float* pQ,int number_of_pieces){
 
 	    BestActionAndUtility a = ChooseBestAction(f, p, pQ,0);
 
+		//cout<<endl;
 
-		cout<<endl;
-
-	    cout<<pQ[f.GetState()]<<endl;
+	    //cout<<pQ[f.GetState()]<<endl;
 
 	    f.MakeMove(p, a.GetBestAction1(), a.GetBestAction2());
 
@@ -138,6 +134,7 @@ int main(){
 
       Game_training(pQ, 10000, 0.02, 0.8);
   	}
+
     //Game_display(pQ, 100);
   	delete[] pQ;
 
