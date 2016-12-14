@@ -7,6 +7,10 @@
 
 
 class Game {
+private:
+
+
+public:
 
 };
 
