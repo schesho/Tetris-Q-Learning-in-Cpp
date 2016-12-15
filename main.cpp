@@ -13,9 +13,13 @@ int main(){
 
 	cout<<"------------------------------------------------------------------------------------------------"<<endl;
 
+    int number_training_games = 1000;
+    int number_training_pieces = 10000;
+    int number_game_pieces = 10000;
+
     QBrain Q;
 
-    Q.Train(1000,10000);
+    Q.Train(number_training_games, number_training_pieces);
 
-    Q.Game(10000);
+    Q.Game(number_game_pieces);
 }
