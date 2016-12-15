@@ -12,7 +12,7 @@ QBrain::QBrain() {
     _gamma = 0.8;
     _reward_coefficient = 100;
     _pQ = new float[_number_of_possible_states];
-    for(int i=0; i < _number_of_possible_states; i++){
+    for(int i=0; i<_number_of_possible_states; i++){
         _pQ[i] = 0;
     }
 }
@@ -22,7 +22,7 @@ QBrain::QBrain(float alpha, float gamma, int reward_coefficient) {
     _gamma = gamma;
     _reward_coefficient = reward_coefficient;
     _pQ = new float[_number_of_possible_states];
-    for(int i=0; i < _number_of_possible_states ; i++){
+    for(int i=0;i< _number_of_possible_states ; i++){
         _pQ[i] = 0;
     }
 }
