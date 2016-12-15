@@ -6,12 +6,13 @@
 #include <iostream>
 using namespace std;
 
+// Default constructor
 QBrain::QBrain() {
     _alpha = 0.02;
     _gamma = 0.8;
     _reward_coefficient = 100;
-    _pQ = new float[4096];
-    for(int i=0; i<4096; i++){
+    _pQ = new float[_number_of_possible_states];
+    for(int i=0; i < _number_of_possible_states; i++){
         _pQ[i] = 0;
     }
 }
@@ -20,8 +21,8 @@ QBrain::QBrain(float alpha, float gamma, int reward_coefficient) {
     _alpha = alpha;
     _gamma = gamma;
     _reward_coefficient = reward_coefficient;
-    _pQ = new float[4096];
-    for(int i=0; i<4096; i++){
+    _pQ = new float[_number_of_possible_states];
+    for(int i=0; i < _number_of_possible_states ; i++){
         _pQ[i] = 0;
     }
 }
@@ -141,8 +142,6 @@ int QBrain::Game(int number_of_pieces) {
             f.MakeMove(p, a.GetBestAction1(), a.GetBestAction2());
 
             f.Display();
-
-            //delete[] a;
 
             cout << f.GetHeight() << endl;
             cout << endl;

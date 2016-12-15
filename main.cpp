@@ -1,5 +1,4 @@
 // emscripten JS + C++
-// enlever magic numbers
 
 #include <iostream>
 #include "Field.h"

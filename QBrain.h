@@ -12,6 +12,7 @@
 
 class QBrain {
 private:
+    const int _number_of_possible_states = 4096;
     float* _pQ;
     float _alpha;
     float _gamma;
