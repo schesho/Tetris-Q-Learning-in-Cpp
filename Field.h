@@ -12,9 +12,10 @@
 
 class Field {
 private:
-    // _state est un int compris entre 0 et 4095, son écriture représente l'état du jeu
+    // _state is an int between 0 and 4095, his structure completely determines the state of the game
     int _state;
     int _height;
+    // See our definition of the tetris game, to understant the role of the height
 
 public:
     Field();
