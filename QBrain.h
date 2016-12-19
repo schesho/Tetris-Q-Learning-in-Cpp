@@ -1,5 +1,8 @@
 //
 // Created by Nicolas on 14/12/16.
+// This class will update our decision matrix (equivalent of pQ)
+// We will do the reinforcement learning number_of_games times
+// A game is defined like a succession of number_of_piece piece to play.
 //
 
 #ifndef TETRIS_RL_QTABLE_H

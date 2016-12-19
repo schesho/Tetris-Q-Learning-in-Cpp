@@ -19,7 +19,7 @@ using namespace std;
 
 // Definition of a specific constructor
 // State 0 represents the following disposition on the field | 0 0 0 0 0 0 |
-//                                                          | 0 0 0 0 0 0 |
+//                                                           | 0 0 0 0 0 0 |
 Field::Field(){
     _state = 0;
     _height = 0;
