@@ -160,3 +160,4 @@ int QBrain::Game(int number_of_pieces) {
         cout << "Object deleted"<<endl;
     }
 
+
