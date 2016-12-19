@@ -156,7 +156,7 @@ int QBrain::Game(int number_of_pieces) {
         }
         cout << "Final height: " << f.GetHeight() << endl;
         cout << "Deletion of the unused objects..."<< endl;
-        delete[] _pQ;
+       // delete[] _pQ;
         cout << "Object deleted"<<endl;
     }
 
