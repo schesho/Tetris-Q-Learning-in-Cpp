@@ -6,16 +6,18 @@
 #define TETRIS_RL_NEURAL2_H
 
 
-class Neural{
+class Neuron{
     private:
         int _number_input;
         vector<float> _weight;
 
     public:
-        Neural();
-        Neural(vector<float> initial_weight);
-        ~Neural();
+        Neuron();
+        Neuron(vector<float> initial_weight);
+        ~Neuron();
         float Activation_function(vector<float> activated_input);
+        vector<float> get_weight(void);
+
 
     }
     ;

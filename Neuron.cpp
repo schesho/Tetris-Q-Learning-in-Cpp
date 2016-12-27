@@ -5,29 +5,37 @@
 #include <iostream>
 using namespace std;
 #include <vector>
-#include "Neural.h"
+#include "Neuron.h"
 
 
 
 
 
 // constructor
-Neural::Neural(){}
+Neuron::Neuron(){}
 
 
 // Destructor
-Neural::~Neural() {
+Neuron::~Neuron() {
     // TODO Auto-generated destructor stub
 }
 
 
-Neural::Neural(vector<float> weights_input){
+Neuron::Neuron(vector<float> weights_input){
     _number_input = weights_input.size();
     _weight = weights_input;
 }
 
 
-float Neural::Activation_function(vector<float> activated_input){
+vector <float> Neuron::get_weight(){
+    return _weight;
+
+
+
+}
+
+
+float Neuron::Activation_function(vector<float> activated_input){
     //Value that neuron takes depending on the values takes by neurons of the previous layer
     float sum = 0;
     int number_input = activated_input.size();

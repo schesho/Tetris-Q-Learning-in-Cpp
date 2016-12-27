@@ -9,14 +9,18 @@
 class Neural_Network {
 private:
     int _nLayers;
-    vector<vector<Neural>> _Layers;
+    vector<vector<Neuron>> _Layers;
 
     vector<float> Propagation(int& layer_number,vector<float>& neurons_values);
 public:
     Neural_Network();
-    Neural_Network(vector<vector<Neural>> Layers);
+    Neural_Network(vector<vector<Neuron>> Layers);
     ~Neural_Network();
-    vector<float> Result(vector<float>& Input);
+    int get_number_layer(void);
+    vector<vector<Neuron>> get_Layers(void);
+    vector<vector<float>> all_activations(vector<float>& Input);
+    vector<float> One_Step_Backpropagation(int& layer_number,vector<float>& weight);
+    vector<vector<float>> Backpropagation(vector<float>& output_wanted,vector<float> real_output);
 };
 
 
