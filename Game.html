@@ -13,11 +13,14 @@ canvas {
 <script>
 
 var myGamePiece;
+var numberPiece;
+numberPiece=0;
+
 
 
 
 function startGame() {
-    myGamePiece = new component(30, 30, 0, 50, Math.floor(Math.random()*4+1),0);
+    myGamePiece = new component(30, 30, 60, 50, Math.floor(Math.random()*4+1),0,90);
     //myGamePiece2 = new component(30, 30, 120, 0, Math.floor(Math.random()*4+1),0);
     myGameArea.start();
     
@@ -26,7 +29,7 @@ function startGame() {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 120;
+        this.canvas.width = 200;
         this.canvas.height = 180;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
@@ -41,23 +44,25 @@ var myGameArea = {
     },
     clear : function(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop : function() {
+        clearInterval(this.interval);
     }
-    //stop : function() {
-    //    clearInterval(this.interval);
-    //}
 
 }
 
 
-function component(width, height, x, y,type,xborder) {
+function component(width, height, x, y,type,xborder,targetedx) {
     this.width = width;
     this.height = height;
     this.speedX = 0;
-    this.speedY = 0;
+    this.speedY = 1;
     this.x = x;
     this.y = y;
     this.type=type;
     this.xborder=0;
+    this.status="Active";
+    this.targetedx=targetedx;
     // we give a random colour to the pieces of the game
     color="rgb("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+
   Math.floor(Math.random()*256)+")";
@@ -76,73 +81,127 @@ function component(width, height, x, y,type,xborder) {
         ctx = myGameArea.context;
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.fillRect(this.x+30,this.y,this.width,this.height);
+        ctx.fillRect(this.x+this.width,this.y,this.width,this.height);
     }
-
-
         if (this.type==3) {ctx = myGameArea.context;
             ctx.fillStyle = color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
-            ctx.fillRect(this.x+30,this.y,this.width,this.height);
-            ctx.fillRect(this.x,this.y-30,this.width,this.height);
+            ctx.fillRect(this.x+this.width,this.y,this.width,this.height);
+            ctx.fillRect(this.x,this.y-this.height,this.width,this.height);
             }
         if (this.type==4) {
             ctx = myGameArea.context;
             ctx.fillStyle = color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
-            ctx.fillRect(this.x+30,this.y,this.width,this.height);
-            ctx.fillRect(this.x,this.y-30,this.width,this.height);
-            ctx.fillRect(this.x+30,this.y-30,this.width,this.height);
-
-
+            ctx.fillRect(this.x+this.width,this.y,this.width,this.height);
+            ctx.fillRect(this.x,this.y-this.height,this.width,this.height);
+            ctx.fillRect(this.x+this.width,this.y-this.height,this.width,this.height);
         }
-    
     }
-
-
-
-
+    
+    this.hitBottom = function() {
+        var rockbottom = myGameArea.canvas.height - this.height;
+        if (this.y > rockbottom) {this.y = rockbottom;
+            this.status="Done";
+            this.stopPiece();
+            numberPiece+=1;
+        }
+    }
+    this.hitLeft = function() {
+        var rockleft = 0;
+        if (this.x < rockleft) {this.x = rockleft;
+            this.stopPiece()}
+    }
+    this.hitRight = function() {
+        var rockright = myGameArea.canvas.width-(this.width+this.xborder);
+        if (this.x >= rockright) {this.x = rockright;}
+    }
+    this.touchWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
+    }
+    // le but de cette partie est d'arrêter le déplacement de la pièce dès qu'elle est en contact avec autre chose
+    this.stopPiece=function(){
+        this.speedX=0;
+        this.speedY=0;
+        // ce petit décalage me permet de checker que j'ai bien un stop.
+        //this.x=50;
+    }
     this.newPos = function() {
+        if (this.x<this.targetedx) {
+            this.speedX=1;}
+        if (this.x>this.targetedx) {
+            this.speedX=-1;}
         this.x += this.speedX;
         this.y += this.speedY;
         this.hitBottom();
         this.hitLeft();
         this.hitRight(); 
     }
-    this.hitBottom = function() {
-        var rockbottom = myGameArea.canvas.height - this.height;
-        if (this.y > rockbottom) {this.y = rockbottom;}
-    }
-    this.hitLeft = function() {
-        var rockleft = 0;
-        if (this.x < rockleft) {this.x = rockleft;}
-    }
-    this.hitRight = function() {
-        var rockright = myGameArea.canvas.width-(this.width+this.xborder);
-        if (this.x >= rockright) {this.x = rockright;}
-    }
 
 }
 
+function actu_and_newPiece(piece_courante){
+    piece_courante.speedX=0;
+    piece_courante.update();
+    if (piece_courante.status=="Done"){
+            numberPiece+=1;
+            return (new component(30, 30, 0, 50, Math.floor(Math.random()*4+1),0,120));
+        }
+
+
+}
+
+
+
+
+
+
+
 function updateGameArea() {
-    myGameArea.clear();
-    myGamePiece.speedX = 0;
-    myGamePiece.speedY=1;
+    if (numberPiece>5){
+        myGameArea.stop();}
+    else {
+        myGameArea.clear();
+        myGamePiece.speedX = 0;
+        //actu_and_newPiece(myGamePiece);
+
+    //myGamePiece.speedY=1;
     //myGamePiece2.speedX = 0;
     //myGamePiece2.speedY=1;
 //    if (myGamePiece.y==450){myGamePiece.speedY=0;}
  //   else {myGamePiece.speedY = +1;}
  //   if (myGamePiece.x==0){myGamePiece.speedX=+20;}
-    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
-    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
-    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
-    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1; }
-    myGamePiece.newPos();
-    myGamePiece.update();
+        //if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.speedX = -1; }
+        //if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.speedX = 1; }
+        //if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speedY = -1; }
+        //if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speedY = 1; }
+        
+
+
+        myGamePiece.newPos();
+        myGamePiece.update();
+        if (myGamePiece.status=="Done"){
+            numberPiece+=1;
+            new component(30, 30, 0, 50, Math.floor(Math.random()*4+1),0,120);
+        }
+
+
     //myGamePiece2.newPos();
     //myGamePiece2.update();
 }
-
+}
 
 function moveup() {
     myGamePiece.speedY -= 1; 
