@@ -96,7 +96,6 @@ BestActionAndUtility QBrain::ChooseBestAction(Field current_field, Piece current
 // The following function will allow us to update several times _pQ in order to implement the reinforcement learning
 void QBrain::Train(int number_of_games, int number_of_pieces) {
 
-    cout << "Training the QBrain..." << endl;
     for (int j = 0; j < number_of_games; j++) {
         Field f;
         // The usual definition of the field (height =0 and state =0)
@@ -123,7 +122,6 @@ void QBrain::Train(int number_of_games, int number_of_pieces) {
         }
     }
     cout << endl;
-    cout<< "Training Done"<<"\n";
     cout<< endl;
 }
 

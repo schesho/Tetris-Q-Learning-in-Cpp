@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+ <meta charset="UTF-8"> 
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+
+         $(document).ready(function() {
+         	var Qtable=[];
+
+            $("#train").click(function(event){
+
+				   $.ajax({
+				    type: "POST",
+				    url: "cgi-bin/main.cgi",
+				    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+				    // les données transmises par POST sont indiquées par le paramètre data de l'objet $.ajax() : ici une simple chaîne de caractères
+				    data: {alpha:$("#alpha").val(),gamma: $("#gamma").val()},
+				    error:function(msg){og
+				            alert( "Erreur : " + msg );
+				            },
+				    // le retour du CGI (sa sortie standard) est transmis au paramètre unique de la fonction configurée dans success :
+				    success:function(data){
+				    		var j=0;
+				            for( var i = 0 ; i < data.length;i++){
+				            	if (data.charAt(i) ==' '){
+				            		Qtable.push(data.slice(j,i));
+				            		i++;
+
+				            	}
+
+				            }
+				            alert("Entrainement effectué")
+				            }
+
+				    });
+				        });
+
+         });
+         
+</script>
+</head>
+  <body>
+<canvas id="myCanvas" width="480" height="320"></canvas>
+<script src="game.js"></script>
+<p>Entrez les paramètres d'entrainement</p>
+      <input type = "input" id = "alpha" value ="alpha" size = "1" /><br />
+	   <input type = "input" id = "gamma" value ="gamma" size = "1" /><br />
+		
+      <input type = "button" id = "train" value = "Entrainer l'IA" />
+
+  </body>
+</html>
+

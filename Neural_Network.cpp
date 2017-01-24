@@ -4,6 +4,7 @@
 
 #include <iostream>
 using namespace std;
+#include <algorithm>
 #include <vector>
 #include "Neuron.h"
 #include "Neural_Network.h"
