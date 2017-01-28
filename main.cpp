@@ -1,7 +1,3 @@
-// emscripten JS + C++
-// simple-web-server
-
-
 #include <iostream>
 using namespace std;
 #include <vector>
@@ -13,6 +9,7 @@ using namespace std;
 
 
 int main(){
+
 	//Dans les commentaires je vérifie juste que mes classes Neuron et NeuralNet fonctionnent correctement
 	Neuron input1;
 	Neuron input2;
