@@ -1,7 +1,6 @@
 //
-// Created by SrS on 07/12/16.
 // This file contains the main information for the field class
-// The information of the state of the game will be gather here
+// The information on the state of the game will be gathered here
 //
 
 
@@ -13,9 +12,10 @@
 class Field {
 private:
     // _state is an int between 0 and 4095, his structure completely determines the state of the game
+    // it is defined exactly like a _shape in the Piece class
     int _state;
+    // current height of the game (see our definition of the game)
     int _height;
-    // See our definition of the tetris game, to understant the role of the height
 
 public:
     Field();

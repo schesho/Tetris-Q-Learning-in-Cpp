@@ -1,11 +1,3 @@
-//
-// Created by SrS on 07/12/16.
-// This file contains the main information for the field class
-// The information of the state of the game will be gather here
-//
-
-
-// IMPORTATIONS
 #include "Field.h"
 #include <math.h>
 #include <iostream>
@@ -27,7 +19,6 @@ Field::Field(){
 
 // Destructor
 Field::~Field() {
-    // TODO Auto-generated destructor stub
 }
 
 
@@ -41,12 +32,12 @@ int Field::GetState() {
     return _state;
 }
 
-// In some cases, we will have to play above the toplevel, therefore the height will be incremented
+// In some cases, we will have to play above the top level, therefore the height will be incremented
 void Field::NextHeight() {
     _height += 1;
 }
 
-
+// Displays the current state of the game
 void Field::Display(){
 
     int s = _state;
@@ -81,6 +72,8 @@ void Field::Display(){
 //    cout << endl;
 }
 
+// Given a piece, a state of the game, a rotation and a position, it updates the game by inserting the piece
+// witht the given rotation and position
 
 void Field::MakeMove(Piece p, int rotation, int position) {
     // Recall: a state is either an in a matrix with 2 rows and 6 columns, therefore position respect:   0<=position<=5
@@ -101,6 +94,7 @@ void Field::MakeMove(Piece p, int rotation, int position) {
     // when there is a space on the field for the piece
     if ((piece_shape&_state) == 0){
         _state = _state|piece_shape;
+
     // if there is no no space on the bottom line (we have to add another line)
     } else if (((64*piece_shape)&_state) == 0){
         _state = _state | (64 * piece_shape);

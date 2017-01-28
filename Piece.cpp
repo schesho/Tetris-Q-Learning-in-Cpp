@@ -8,7 +8,7 @@ using namespace std;
 
 // Constructor
 // The piece is initialized randomly (but for the 4 spaces marked HERE)
-// |0 0 0 0 x y| x, y, w & z are randomly assigned the value 0 or 1
+// |0 0 0 0 x y| x, y, w & z are each randomly assigned the value 0 or 1
 // |0 0 0 0 w z|
 Piece::Piece(){
     _shape=0;
