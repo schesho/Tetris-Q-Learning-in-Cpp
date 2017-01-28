@@ -1,4 +1,6 @@
 // emscripten JS + C++
+// simple-web-server
+
 
 #include <iostream>
 using namespace std;
@@ -17,7 +19,7 @@ int main(){
 	vector<float> input_weights1;
 	vector<float> input_weights2;
 	vector<float> input_weights3;
-	// weigths for the first layre
+	// weigths for the first layer
 	input_weights1.push_back(0);
 	input_weights1.push_back(1);
 
