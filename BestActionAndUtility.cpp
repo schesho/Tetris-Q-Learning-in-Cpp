@@ -14,6 +14,7 @@ BestActionAndUtility::BestActionAndUtility() {
     // remark: std::numeric_limits<float>::max() give us the largest value for type float
     // Thus _utility is initialized with the lowest possible value
     _best_action1 = 0;
+
     // action1 is the equivalent for the rotation (ie how many times should we rotate a given piece before inserting it in the game)
     // action2 is the equivalent for the position ( given a piece and a state, the position where we will insert a piece)
 

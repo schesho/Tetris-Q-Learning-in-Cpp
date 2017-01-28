@@ -8,9 +8,12 @@
 
 ## Usage
 
-pour lancer du terminal : on se met dans le dossier  contenant et:  
-g++ -std=c++11 test.cpp Field.cpp Piece.cpp -o peuimportelenom
-./peuimportelenom
+To run it on your machine git clone the project and :
+
+g++ -std=c++11 test.cpp Field.cpp Piece.cpp -o whatever ./whatever
+
+See the result on :
+http://51.15.138.105/
 
 ## Contributing
 
