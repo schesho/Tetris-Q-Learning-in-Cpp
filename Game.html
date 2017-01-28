@@ -22,7 +22,8 @@ var piece_height=30;
 
 
 function startGame() {
-    myGamePiece = new component(30, 30, 60, 50, Math.floor(Math.random()*4+1),0,90);
+    myGamePiece = new component(30, 30, 60, 50,2 ,0,90);
+    //Math.floor(Math.random()*4+1)
     myGameArea.start();
     
 }
@@ -76,29 +77,38 @@ function component(width, height, x, y,type,xborder,targetedx) {
         }
 
     this.update = function(){
-        if (numberPiece==0){ctx=myGameArea.context;}
-        else {ctx=ctx_new;}
+        ctx=myGameArea.context;
         if (this.type==1) {
         ctx.fillStyle = color;
+        ctx.clearRect(this.x-this.speedX,this.y-this.speedY,this.width,this.height);
         ctx.fillRect(this.x, this.y, this.width, this.height);
         }
         if (this.type==2)  {
         
         ctx.fillStyle = color;
+        ctx.clearRect(this.x-this.speedX, this.y-this.speedY, this.width, this.height);
         ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.clearRect(this.x+this.width-this.speedX,this.y-this.speedY,this.width,this.height);
         ctx.fillRect(this.x+this.width,this.y,this.width,this.height);
     }
         if (this.type==3) {
             ctx.fillStyle = color;
+            ctx.clearRect(this.x-this.speedX, this.y-this.speedY, this.width, this.height);
             ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.clearRect(this.x+this.width-this.speedX,this.y-this.speedY,this.width,this.height);
             ctx.fillRect(this.x+this.width,this.y,this.width,this.height);
+            ctx.clearRect(this.x-this.speedX,this.y-this.height-this.speedY,this.width,this.height);
             ctx.fillRect(this.x,this.y-this.height,this.width,this.height);
             }
         if (this.type==4) {
             ctx.fillStyle = color;
+            ctx.clearRect(this.x-this.speedX, this.y-this.speedY, this.width, this.height);
             ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.clearRect(this.x+this.width-this.speedX,this.y-this.speedY,this.width,this.height);
             ctx.fillRect(this.x+this.width,this.y,this.width,this.height);
+            ctx.clearRect(this.x-this.speedX,this.y-this.height-this.speedY,this.width,this.height);
             ctx.fillRect(this.x,this.y-this.height,this.width,this.height);
+            ctx.clearRect(this.x+this.width-this.speedX,this.y-this.height-this.speedY,this.width,this.height);
             ctx.fillRect(this.x+this.width,this.y-this.height,this.width,this.height);
         }
     }
@@ -160,27 +170,19 @@ function component(width, height, x, y,type,xborder,targetedx) {
 // prend en entrée un état et la pièce qu'elle redessinne l'état normalement au moment ou la pièce touche le sol, on modifie l'état et on prend une nouvelle pièce.
 
 function updateGameArea() {
-    if (numberPiece>0){
+    if (numberPiece>2){
         myGameArea.stop();}
     else {
 
-        myGameArea.clear();
+        //myGameArea.clear();
         myGamePiece.speedX = 0;
         myGamePiece.newPos();
-        //myGameArea.context.restore();
         myGamePiece.update();
 
         if (myGamePiece.status=="Done"){
             numberPiece+=1; 
             myGameArea.stop();
-            myGameArea.context.save();
-            //myGameArea.context.restore();
             myGamePiece= new component(30, 30, 80, 80, Math.floor(Math.random()*4+1),0,90);
-            var ctx_new=myGameArea.getContext('2d'); 
-
-            //myGameArea.clear();
-            //myGamePiece.update();
-            //myGamePiece.update();
             myGameArea.set();
 
 
