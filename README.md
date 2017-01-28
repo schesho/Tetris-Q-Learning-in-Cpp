@@ -26,7 +26,9 @@ TODO: Write history
 ## Credits
 
 Nicolas SCHREUDER
+
 Sholom SCHECHTMAN
+
 Yoan RUSSAC
 
 ## License
