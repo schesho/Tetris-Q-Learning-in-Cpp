@@ -1,6 +1,4 @@
-//
-// Created by Nicolas on 14/12/16.
-// This class is necessary to define the action for a give piece and a given field (state of the game)
+// This class is necessary to define the action taken for a give piece and a given field (state of the game)
 // The action n°1 is the rotation
 // The action n°2 is the position of the piece
 //

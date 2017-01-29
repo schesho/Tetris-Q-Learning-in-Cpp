@@ -1,7 +1,5 @@
-//
-// Created by Nicolas on 14/12/16.
-// This class will update our decision matrix (equivalent of pQ)
-// We will do the reinforcement learning number_of_games times
+// This class will update our decision matrix, the Q table
+// We will train the model on number_of_games games.
 // A game is defined like a succession of number_of_piece piece to play.
 //
 
@@ -16,8 +14,8 @@
 class QBrain {
 private:
     const int _number_of_possible_states = 4096;
-    const int _position_extent=4; // the piece could be add between position 0 and 4 (because a piece is a 2*2 block)
-    const int _number_of_rotation=3;
+    const int _position_extent = 4; // the piece could be added between position 0 and 4 (because a piece is a 2*2 block)
+    const int _number_of_rotation = 3;
     float* _pQ;
     float _alpha;
     float _gamma;

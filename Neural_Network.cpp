@@ -4,7 +4,6 @@
 
 #include <iostream>
 using namespace std;
-#include <algorithm>
 #include <vector>
 #include "Neuron.h"
 #include "Neural_Network.h"
@@ -18,7 +17,7 @@ Neural_Network::~Neural_Network(){
 
 }
 
-Neural_Network::Neural_Network(vector< vector<Neuron> > Layers){
+Neural_Network::Neural_Network(vector<vector<Neuron>> Layers){
     _Layers = Layers;
     _nLayers = Layers.size();
 }

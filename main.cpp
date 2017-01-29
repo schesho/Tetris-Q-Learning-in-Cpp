@@ -10,6 +10,16 @@ using namespace std;
 
 int main(){
 
+	int number_training_games = 100;
+    int number_training_pieces = 1000;
+    int number_game_pieces = 1000;
+
+    QBrain Q;
+
+    Q.Train(number_training_games, number_training_pieces);
+
+    Q.Game(number_game_pieces);
+
 	//Dans les commentaires je vérifie juste que mes classes Neuron et NeuralNet fonctionnent correctement
 	Neuron input1;
 	Neuron input2;
@@ -93,18 +103,4 @@ int main(){
 	vector<vector<float>> all_delta = NNet.Backpropagation(output_wanted,final_output);
 
 
-
-
-
-
-
-    /*int number_training_games = 100;
-    int number_training_pieces = 1000;
-    int number_game_pieces = 1000;
-
-    QBrain Q;
-
-    Q.Train(number_training_games, number_training_pieces);
-
-    Q.Game(number_game_pieces);*/
 }

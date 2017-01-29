@@ -1,10 +1,3 @@
-//
-// Created by Nicolas on 14/12/16.
-// This class will update our decision matrix (equivalent of pQ)
-// We will do the reinforcement learning number_of_games times
-// A game is defined like a succession of number_of_piece piece to play.
-//
-
 #include "QBrain.h"
 #include <iostream>
 using namespace std;
@@ -93,21 +86,19 @@ BestActionAndUtility QBrain::ChooseBestAction(Field current_field, Piece current
     return best_utility_and_action;
 }
 
-// The following function will allow us to update several times _pQ in order to implement the reinforcement learning
+// The following function will allow us to train our model by updating several times our Q table
+// It is the training part of the reinforcement learning
 void QBrain::Train(int number_of_games, int number_of_pieces) {
 
     for (int j = 0; j < number_of_games; j++) {
         Field f;
-        // The usual definition of the field (height =0 and state =0)
+        // The usual definition of the field (height = 0 and state = 0)
         for (int i = 0; i < number_of_pieces; i++) {
 
             Piece p;
 
-            // cout<<"piece: "<<endl;
-            //p.Display();
             BestActionAndUtility a = ChooseBestAction(f, p);
 
-            // cout<<endl;
             // cout<<pQ[f.GetState()]<<endl;
 
             Update(a, f, p);
@@ -125,8 +116,12 @@ void QBrain::Train(int number_of_games, int number_of_pieces) {
     cout<< endl;
 }
 
+// Plays the game once for a given number of pieces
+// We can play the game before and after training the model to see the difference
+// We also implement the random player strategy to compare to the trained model strategy
 void QBrain::Game(int number_of_pieces) {
         Field f;
+        Field random_f;
         cout<<"Beginning of the play"<<"\n";
         cout<<"Number of pieces="<<number_of_pieces<<'\n';
         cout<<endl;
@@ -134,7 +129,7 @@ void QBrain::Game(int number_of_pieces) {
         for (int i=0 ; i<number_of_pieces ; i++){
 
             Piece p;
-            cout << "piece: " << endl;
+            cout << "Piece: " << endl;
             p.Display();
 
             BestActionAndUtility a = ChooseBestAction(f, p);
@@ -143,9 +138,16 @@ void QBrain::Game(int number_of_pieces) {
 
             // cout<<_pQ[f.GetState()]<<endl;
 
+            // Trained model move
             f.MakeMove(p, a.GetBestAction1(), a.GetBestAction2());
 
+            // Random player move
+            random_f.MakeMove(p, rand()%4, rand());
+
             f.Display();
+
+            // Uncomment next line to see the random player moves
+            // random_f.Display();
 
             //delete[] a;
 
@@ -156,7 +158,8 @@ void QBrain::Game(int number_of_pieces) {
         cout << "Deletion of the unused objects..."<< endl;
        // delete[] _pQ;
         cout << "Object deleted"<<endl;
-        cout << "Final height: " << f.GetHeight() << endl;
+        cout << "Final height Q-learning: " << f.GetHeight() << endl;
+        cout << "Final height random player: " << random_f.GetHeight() << endl;
     }
 
 

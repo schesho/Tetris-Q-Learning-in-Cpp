@@ -1,9 +1,3 @@
-//
-// Created by Nicolas on 14/12/16.
-// The action n°1 is the rotation
-// The action n°2 is the position of the piece
-//
-
 #include "BestActionAndUtility.h"
 #include <iostream>
 #include <limits>
