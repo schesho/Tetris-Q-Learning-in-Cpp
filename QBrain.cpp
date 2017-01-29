@@ -118,46 +118,51 @@ void QBrain::Train(int number_of_games, int number_of_pieces) {
 
 // Plays the game once for a given number of pieces
 // We can play the game before and after training the model to see the difference
-// We also implement the random player strategy to compare to the trained model strategy
+// We also implement the random player strategy to compare to the Q-learning strategy
 void QBrain::Game(int number_of_pieces) {
+
+        // Field on which the Q-learning player plays
         Field f;
+        // Field on which the random player plays
         Field random_f;
-        cout<<"Beginning of the play"<<"\n";
-        cout<<"Number of pieces="<<number_of_pieces<<'\n';
+        cout<<"Beginning of the game"<<"\n";
+        cout<<"Number of pieces = "<<number_of_pieces<<'\n';
         cout<<endl;
 
         for (int i=0 ; i<number_of_pieces ; i++){
 
-            Piece p;
-            cout << "Piece: " << endl;
-            p.Display();
+            // Displays current height of the game
+            cout << "Current height : " << f.GetHeight() << endl;
+            cout << endl;
 
+            // Instantiates the next piece and displays it
+            Piece p;
+            cout << "Next piece: " << endl;
+            p.Display();
+            cout << endl;
+
+            // Returns best action for a given state of the game and the next piece
             BestActionAndUtility a = ChooseBestAction(f, p);
 
-            //cout<<endl;
+            // Displays current state of the game (before putting the new piece)
+            cout << "Current state :" << endl;
+            f.Display();
 
-            // cout<<_pQ[f.GetState()]<<endl;
-
-            // Trained model move
+            // Q-learning player move
             f.MakeMove(p, a.GetBestAction1(), a.GetBestAction2());
 
             // Random player move
-            random_f.MakeMove(p, rand()%4, rand());
-
-            f.Display();
+            random_f.MakeMove(p, rand()%4, rand()%6);
 
             // Uncomment next line to see the random player moves
             // random_f.Display();
 
-            //delete[] a;
-
-            cout << f.GetHeight() << endl;
             cout << endl;
         }
 
         cout << "Deletion of the unused objects..."<< endl;
-       // delete[] _pQ;
-        cout << "Object deleted"<<endl;
+        delete[] _pQ;
+        cout << "Objects deleted"<<endl;
         cout << "Final height Q-learning: " << f.GetHeight() << endl;
         cout << "Final height random player: " << random_f.GetHeight() << endl;
     }

@@ -42,7 +42,6 @@ void Field::Display(){
 
     int s = _state;
 
-    cout << endl;
     //Line feed
 
     // The following block will print the top level of the state
@@ -69,11 +68,11 @@ void Field::Display(){
             cout << "0 ";
         }
     }
-//    cout << endl;
+    cout << endl;
 }
 
 // Given a piece, a state of the game, a rotation and a position, it updates the game by inserting the piece
-// witht the given rotation and position
+// with the given rotation and position
 
 void Field::MakeMove(Piece p, int rotation, int position) {
     // Recall: a state is either an in a matrix with 2 rows and 6 columns, therefore position respect:   0<=position<=5
@@ -88,7 +87,7 @@ void Field::MakeMove(Piece p, int rotation, int position) {
     if(((piece_shape&1)+(piece_shape&2))==0){
         piece_shape/=64;
     }
-    piece_shape= piece_shape<<position;
+    piece_shape = piece_shape << position;
     //leftshift operator is the equivalent of moving all the bits of a number a specified number of places to the left
 
     // when there is a space on the field for the piece

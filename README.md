@@ -4,7 +4,7 @@
 
 ## Installation
 
-
+No particular library is needed to run the code !
 
 ## Usage
 
@@ -18,10 +18,6 @@ http://51.15.138.105/
 ## Contributing
 
 Feel free to contribute !
-
-## History
-
-TODO: Write history
 
 ## Credits
 

@@ -20,6 +20,8 @@ int main(){
 
     Q.Game(number_game_pieces);
 
+	return 0;
+
 	//Dans les commentaires je vérifie juste que mes classes Neuron et NeuralNet fonctionnent correctement
 	Neuron input1;
 	Neuron input2;

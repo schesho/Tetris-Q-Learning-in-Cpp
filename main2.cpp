@@ -37,7 +37,7 @@ int main(){
 		alpha = stof( **fi_alpha );
 		data_success += 1;
 	}else{
-		cout << "Veuillez preciser le paramètre alpha" << endl;  
+		cout << "Veuillez préciser le paramètre alpha" << endl;
 	}
 
 	form_iterator fi_gamma = formData.getElement("gamma");
@@ -46,7 +46,7 @@ int main(){
 		gamma = stof( **fi_alpha );
 		data_success += 1;
 	}else{
-		cout << "Veuillez preciser le paramètre alpha" << endl;  
+		cout << "Veuillez préciser le paramètre alpha" << endl;
 	}
 
 
