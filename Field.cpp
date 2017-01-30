@@ -83,7 +83,7 @@ void Field::MakeMove(Piece p, int rotation, int position) {
 
 
     //if after the rotation the piece is present only on the second level we push it on the bottom
-    // Newton's rule for the piece (could'nt lie on nothing)
+    // Newton's rule for the piece (can not lie on nothing)
     if(((piece_shape&1)+(piece_shape&2))==0){
         piece_shape/=64;
     }

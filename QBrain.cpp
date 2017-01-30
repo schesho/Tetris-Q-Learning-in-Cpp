@@ -93,7 +93,7 @@ void QBrain::Train(int number_of_games, int number_of_pieces) {
     for (int j = 0; j < number_of_games; j++) {
         Field f;
         // The usual definition of the field (height = 0 and state = 0)
-        for (int i = 0; i < number_of_pieces; i++) {
+        for (int i = 0; i < number_of_pieces; i++){
 
             Piece p;
 

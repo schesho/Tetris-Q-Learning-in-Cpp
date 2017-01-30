@@ -27,11 +27,10 @@ int main(){
     int number_training_games = 100;
     int number_training_pieces = 1000;
     int number_game_pieces = 1000;
+	int data_success = 0;
 
-    int data_success = 0;
-
-   float alpha = 0;
-   float gamma = 0;
+	float alpha = 0;
+	float gamma = 0;
 
 	Cgicc formData;
 
