@@ -18,9 +18,12 @@ using namespace std;
 
 using namespace std;
 using namespace cgicc;
-cout << "Content-type:text/html\r\n\r\n";
+
 
 int main(){
+
+	cout << "Content-type:text/html\r\n\r\n";
+
     int number_training_games = 100;
     int number_training_pieces = 1000;
     int number_game_pieces = 1000;

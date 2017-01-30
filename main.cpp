@@ -10,13 +10,13 @@ using namespace std;
 
 int main(){
 
-	int number_training_games = 100;
+	int number_training_games = 10000;
     int number_training_pieces = 1000;
     int number_game_pieces = 1000;
 
     QBrain Q;
 
-    Q.Train(number_training_games, number_training_pieces);
+	Q.Train(number_training_games, number_training_pieces);
 
     Q.Game(number_game_pieces);
 

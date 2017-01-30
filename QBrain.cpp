@@ -129,7 +129,7 @@ void QBrain::Game(int number_of_pieces) {
         cout<<"Number of pieces = "<<number_of_pieces<<'\n';
         cout<<endl;
 
-        for (int i=0 ; i<number_of_pieces ; i++){
+        for (int i=0 ; i < number_of_pieces ; i++){
 
             // Displays current height of the game
             cout << "Current height : " << f.GetHeight() << endl;
@@ -152,7 +152,7 @@ void QBrain::Game(int number_of_pieces) {
             f.MakeMove(p, a.GetBestAction1(), a.GetBestAction2());
 
             // Random player move
-            random_f.MakeMove(p, rand()%4, rand()%6);
+            random_f.MakeMove(p, rand()%4, rand()%5);
 
             // Uncomment next line to see the random player moves
             // random_f.Display();
