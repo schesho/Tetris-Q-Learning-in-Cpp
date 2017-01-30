@@ -18,7 +18,7 @@ using namespace std;
 
 using namespace std;
 using namespace cgicc;
-
+cout << "Content-type:text/html\r\n\r\n";
 
 int main(){
     int number_training_games = 100;
@@ -27,8 +27,8 @@ int main(){
 
     int data_success = 0;
 
-   	float alpha = 0;
-    float gamma = 0;
+   float alpha = 0;
+   float gamma = 0;
 
 	Cgicc formData;
 
@@ -46,11 +46,11 @@ int main(){
 		gamma = stof( **fi_alpha );
 		data_success += 1;
 	}else{
-		cout << "Veuillez préciser le paramètre alpha" << endl;
+		cout << "Veuillez préciser le paramètre gamma" << endl;
 	}
 
 
-	cout << "Content-type:text/html\r\n\r\n";
+
 	if ( data_success == 2){
 		QBrain Q(alpha,gamma,100);
 		Q.Train(number_training_games, number_training_pieces);
