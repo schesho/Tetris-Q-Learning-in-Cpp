@@ -5,54 +5,65 @@
 <head>
 <link rel="stylesheet" href="game.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script>
-		var Qtable=[];
 
+
+<script>
+
+var timeout = 2000;
+Qtable=[];
+for (var i = 0; i < 4096; i++){
+	Qtable.push(0);
+}
          $(document).ready(function() {
          	
-
             $("#train").click(function(event){
-            	console.log($("#alpha").val())
-            	console.log($("#gamma").val())
-				   $.ajax({
+
+            	Qtable=[];
+				$.ajax({
 				    type: "POST",
 				    url: "cgi-bin/main.cgi",
 				    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 				    // les données transmises par POST sont indiquées par le paramètre data de l'objet $.ajax() : ici une simple chaîne de caractères
 				    data: {alpha:$("#alpha").val(),gamma: $("#gamma").val()},
-
 				    error:function(msg){
 				            alert( "Erreur : " + msg );
 				            },
 				    // le retour du CGI (sa sortie standard) est transmis au paramètre unique de la fonction configurée dans success :
 				    success:function(data){
 				    		var j=0;
+
 				            for( var i = 0 ; i < data.length;i++){
 				            	if (data.charAt(i) ==' '){
 				            		Qtable.push(data.slice(j,i));
 				            		j=i+1;
 				            		i++;
-
 				            	}
-
 				            }
 				            alert("Entrainement effectué");
-				            alert(Qtable[0]);
+
+				            
 				            }
-
 				    });
-				        });
-
+			});
+			$("#Start").click(function(event){
+				refreshIntervalId =setInterval(Double_Game_round,timeout);
+				});
+			$("#Stop").click(function(event){
+				clearInterval(refreshIntervalId);
+				});
          });
          
 </script>
+<script src="game.js"></script>
+
+
+
 </head>
   <body>
-  <script src="game.js"></script>
+
 <div class="score">height: <span id="height">0</span><span id ="heightQ"></span></div>
 <div class ="state1"></div>
 <div class ="state2"></div>
- 
   <div id="stack">
   <div class="random">
 	    <div id="y0">
@@ -77,9 +88,14 @@
 	        <div  id="x60" class="brick blocked"></div><div id="x61" class="brick blocked"></div><div id="x62" class="brick blocked"></div><div id="x63" class="brick blocked"></div><div id="x64" class="brick blocked"></div><div id="x65" class="brick blocked"></div>
 	    </div>
     </div>
-
-
-
+     <div class ="piece">
+    	<div class="line">
+    	<div id="f00" class="brick future"></div><div id="f01" class="brick future">
+    		</div>
+    		<div class="line">
+    	</div><div id="f10" class="brick future"></div><div id="f11" class="brick future"></div>
+    	</div>
+    	</div>
 	<div class="Qlearning">
 
 	    <div id="y0Q">
@@ -107,6 +123,8 @@
 
 	</div>
 </div>
+<button id = "Start">Start</button>
+<button id = "Stop">Stop</button>
 <p>Entrez les paramètres d'entrainement</p>
       <input type = "input" id = "alpha" value ="alpha" size = "1" /><br />
 	   <input type = "input" id = "gamma" value ="gamma" size = "1" /><br />
