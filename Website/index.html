@@ -3,21 +3,25 @@
 <html>
 
 <head>
+<link rel="stylesheet" href="game.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
+		var Qtable=[];
 
          $(document).ready(function() {
-         	var Qtable=[];
+         	
 
             $("#train").click(function(event){
-
+            	console.log($("#alpha").val())
+            	console.log($("#gamma").val())
 				   $.ajax({
 				    type: "POST",
 				    url: "cgi-bin/main.cgi",
 				    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 				    // les données transmises par POST sont indiquées par le paramètre data de l'objet $.ajax() : ici une simple chaîne de caractères
 				    data: {alpha:$("#alpha").val(),gamma: $("#gamma").val()},
-				    error:function(msg){og
+
+				    error:function(msg){
 				            alert( "Erreur : " + msg );
 				            },
 				    // le retour du CGI (sa sortie standard) est transmis au paramètre unique de la fonction configurée dans success :
@@ -26,12 +30,14 @@
 				            for( var i = 0 ; i < data.length;i++){
 				            	if (data.charAt(i) ==' '){
 				            		Qtable.push(data.slice(j,i));
+				            		j=i+1;
 				            		i++;
 
 				            	}
 
 				            }
-				            alert("Entrainement effectué")
+				            alert("Entrainement effectué");
+				            alert(Qtable[0]);
 				            }
 
 				    });
@@ -42,8 +48,65 @@
 </script>
 </head>
   <body>
-<canvas id="myCanvas" width="480" height="320"></canvas>
-<script src="game.js"></script>
+  <script src="game.js"></script>
+<div class="score">height: <span id="height">0</span><span id ="heightQ"></span></div>
+<div class ="state1"></div>
+<div class ="state2"></div>
+ 
+  <div id="stack">
+  <div class="random">
+	    <div id="y0">
+	        <div  id="x00" class="brick"></div><div id="x01" class="brick"></div><div id="x02" class="brick"></div><div id="x03" class="brick"></div><div id="x04" class="brick"></div><div id="x05" class="brick"></div>
+	    </div>
+	    <div id="y1">
+	        <div  id="x10" class="brick"></div><div id="x11" class="brick"></div><div id="x12" class="brick"></div><div id="x13" class="brick"></div><div id="x14" class="brick"></div><div id="x15" class="brick"></div>
+	    </div>
+	    <div id="y2">
+	        <div  id="x20" class="brick"></div><div id="x21" class="brick"></div><div id="x22" class="brick"></div><div id="x23" class="brick"></div><div id="x24" class="brick"></div><div id="x25" class="brick"></div>
+	    </div>
+	    <div id="y3">
+	        <div  id="x30" class="brick"></div><div id="x31" class="brick"></div><div id="x32" class="brick"></div><div id="x33" class="brick"></div><div id="x34" class="brick"></div><div id="x35" class="brick"></div>
+	    </div>
+	    <div id="y4">
+	        <div  id="x40" class="brick"></div><div id="x41" class="brick"></div><div id="x42" class="brick"></div><div id="x43" class="brick"></div><div id="x44" class="brick"></div><div id="x45" class="brick"></div>
+	    </div>
+	    <div id="y5">
+	        <div  id="x50" class="brick blocked"></div><div id="x51" class="brick blocked"></div><div id="x52" class="brick blocked"></div><div id="x53" class="brick blocked"></div><div id="x54" class="brick blocked"></div><div id="x55" class="brick blocked"></div>
+	    </div>
+	    <div id="y6">
+	        <div  id="x60" class="brick blocked"></div><div id="x61" class="brick blocked"></div><div id="x62" class="brick blocked"></div><div id="x63" class="brick blocked"></div><div id="x64" class="brick blocked"></div><div id="x65" class="brick blocked"></div>
+	    </div>
+    </div>
+
+
+
+	<div class="Qlearning">
+
+	    <div id="y0Q">
+	        <div  id="x00Q" class="brick Q"></div><div id="x01Q" class="brick Q"></div><div id="x02Q" class="brick Q"></div><div id="x03Q" class="brick Q"></div><div id="x04Q" class="brick Q"></div><div id="x05Q" class="brick Q"></div>
+	    </div>
+	    <div id="y1Q">
+	        <div  id="x10Q" class="brick Q"></div><div id="x11Q" class="brick Q"></div><div id="x12Q" class="brick Q"></div><div id="x13Q" class="brick Q"></div><div id="x14Q" class="brick Q"></div><div id="x15Q" class="brick Q"></div>
+	    </div>
+	    <div id="y2Q">
+	        <div  id="x20Q" class="brick Q"></div><div id="x21Q" class="brick Q"></div><div id="x22Q" class="brick Q"></div><div id="x23Q" class="brick Q"></div><div id="x24Q" class="brick Q"></div><div id="x25Q" class="brick Q"></div>
+	    </div>
+	    <div id="y3Q">
+	        <div  id="x30Q" class="brick Q"></div><div id="x31Q" class="brick Q"></div><div id="x32Q" class="brick Q"></div><div id="x33Q" class="brick Q"></div><div id="x34Q" class="brick Q"></div><div id="x35Q" class="brick Q"></div>
+	    </div>
+	    <div id="y4Q">
+	        <div  id="x40Q" class="brick Q"></div><div id="x41Q" class="brick Q"></div><div id="x42Q" class="brick Q"></div><div id="x43Q" class="brick Q"></div><div id="x44Q" class="brick Q"></div><div id="x45Q" class="brick Q"></div>
+	    </div>
+	    <div id="y5Q">
+	        <div  id="x50Q" class="brick blocked Q"></div><div id="x51Q" class="brick blocked Q"></div><div id="x52Q" class="brick blocked Q"></div><div id="x53Q" class="brick blocked Q"></div><div id="x54Q" class="brick blocked Q"></div><div id="x55Q" class="brick blocked Q"></div>
+	    </div>
+	    <div id="y6Q">
+	        <div  id="x60Q" class="brick blocked Q"></div><div id="x61Q" class="brick blocked Q"></div><div id="x62Q" class="brick blocked Q"></div><div id="x63Q" class="brick blocked Q"></div><div id="x64Q" class="brick blocked Q"></div><div id="x65Q" class="brick blocked Q"></div>
+	    </div>
+
+
+	</div>
+</div>
 <p>Entrez les paramètres d'entrainement</p>
       <input type = "input" id = "alpha" value ="alpha" size = "1" /><br />
 	   <input type = "input" id = "gamma" value ="gamma" size = "1" /><br />
