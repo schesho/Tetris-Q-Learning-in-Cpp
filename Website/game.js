@@ -1,24 +1,23 @@
-
-
 var pieces=[[0,1,0,1],[0,0,0,1],[1,0,0,1],[1,1,1,1],[0,1,1,1]]
 var int_state4 = 0;
 var state3 = [];
 var state3Q = [];
-for ( var j = 0; j < 36; j++){
+for (var j = 0; j < 36; j++){
 	state3.push(0);
 	state3Q.push(0);
 }
 var state4 = state3.slice();
-
 var state4Q = state3Q.slice();
 
 
 
 function select_posQ(x, y){
-	return $(".brick#x"+y.toString()+x.toString()+"Q");
+	return $(".brick#x" + y.toString() + x.toString() + "Q");
 }
+
+
 function select_pos(x, y){
-	return $(".brick#x"+y.toString()+x.toString());
+	return $(".brick#x" + y.toString() + x.toString());
 }
 
 // Rotates a piece
@@ -100,7 +99,6 @@ function check(x, rot, piece, state){
 			return 4;
 		}
 	}
-
 }
 
 function check_if_possible(x, rot, piece, state){
@@ -188,7 +186,6 @@ function Clean_Game(h, Q){
 		select_function(i,2).removeClass("on");
 		select_function(i,1).removeClass("on");
 
-
 	}
 
 }
@@ -239,27 +236,28 @@ var second = 0;
 var piece = pieces[0];
 var pieceQ = pieces[0];
 
+// Random game round
 function Game_round(){
-
 	state3 = state4.slice()
 	second += 1;
+
+    // Ligne suivante inutile
 	var rand = Math.floor(Math.random() * 4 );
 
 	//random algorithm
-	rand=Math.floor(Math.random() * 4);
+	rand = Math.floor(Math.random() * 4);
 	piece = rotate(piece,rand);
-
 	piece = Gravity(piece);
+
 	rand = Math.floor(Math.random()*5)
-	var right_or_left=check_if_possible(rand,0,piece,state4);
+	var right_or_left = check_if_possible(rand,0,piece,state4);
 
 
-	if(right_or_left<10){
-
+	if(right_or_left < 10){
 		Put_a_piece(rand, 3, piece, right_or_left, 0, function(){Clean_Game(0,0);}, 0);
 
 	} else if (right_or_left==30){
-		if(piece[0]+piece[1]>0){
+		if(piece[0] + piece[1]>0){
 			$("#height").text(Number($("#height").text())+1);
 			Put_a_piece(rand, 2, piece, 1, 0, function(){Clean_Game(1,0);}, 0)
 
@@ -286,6 +284,7 @@ function state_to_int(state){
 function Game_roundQ(){
 
 	state3Q=state4Q.slice();
+
 	var state_index = 0;
 	var position = 0;
 	var rotation = 0;
@@ -339,10 +338,10 @@ function Game_roundQ(){
 			/*console.log(-100 *h + gamma * Qtable[int_representation],Math.max(h,0))
 			console.log(next_state.slice(18,24));
 			console.log(next_state.slice(12,18));*/
-			if (-100 *h + gamma * Qtable[int_representation] >= min ){
+			if (-100 * h + gamma * Qtable[int_representation] >= min ){
 				height = Math.max(h,0);
 				definitive_state = next_state.slice();
-				min = -100 *h + Qtable[int_representation];
+				min = -100 * h + Qtable[int_representation];
 				state_index = int_representation;
 				position = i;
 				rotation = j;
@@ -351,9 +350,10 @@ function Game_roundQ(){
 			}
 		}
 	$("#heightQ").text(Number($("#heightQ").text())+height);
-	state4Q=definitive_state.slice();
+	state4Q = definitive_state.slice();
 	piece2 = rotate(pieceQ, rotation);
 	piece2 = Gravity(piece2);
+    
 	/*if (height > 0){
 		console.log("avant: ");
 		console.log(state4Q.slice(18,24));
@@ -361,7 +361,8 @@ function Game_roundQ(){
 		console.log("hauteur + " + height)
 		console.log(piece2, "position : ", position)
 	}*/
-	if(r_lQ<10){
+	
+    if(r_lQ<10){
 
 			Put_a_piece(position, 3, piece2, r_lQ, 0, function(){Clean_Game(0,1);}, 1);
 
