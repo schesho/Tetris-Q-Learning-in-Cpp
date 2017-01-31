@@ -32,11 +32,10 @@ for (var i = 0; i < 4096; i++){
 				            },
 				    // le retour du CGI (sa sortie standard) est transmis au paramètre unique de la fonction configurée dans success :
 				    success:function(data){
-				    		var j=0;
+				    		var j = 0;
 				    		alert(data)
-				            for var i = 0 ; i < data.length;i++){
+				            for(var i = 0 ; i < data.length;i++){
 				            	if (data.charAt(i) ==' '){
-									alert(Number(data.slice(j,i)))
 				            		Qtable.push(Number(data.slice(j,i)));
 				            		j=i+1;
 				            		i++;
