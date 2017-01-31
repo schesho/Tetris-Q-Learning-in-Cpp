@@ -56,10 +56,6 @@ int main(){
 
 	if ( data_success == 2){
 
-        cout << alpha << " ";
-
-        cout << gamma << " ";
-
 		QBrain Q(alpha,gamma,100);
 
 		Q.Train(number_training_games, number_training_pieces);
@@ -70,6 +66,5 @@ int main(){
 			cout<<_pQ[i]<<" ";
 		}
 		}
-
 
 }
