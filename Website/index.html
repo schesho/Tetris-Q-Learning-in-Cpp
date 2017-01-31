@@ -12,7 +12,6 @@
 var d = 0;
 var timeout = 10;
 Qtable=[];
-var gamma = 0.8;
 for (var i = 0; i < 4096; i++){
 	Qtable.push(0);
 }
@@ -146,8 +145,8 @@ for (var i = 0; i < 4096; i++){
 
 
 <div id ="control_panel"><p align ="center">
-		<input type = "input" id = "alpha" value ="alpha" size = "1" />
-		<input type = "input" id = "gamma" value ="gamma" size = "1" />
+		<input type = "input" id = "alpha" value ="alpha" size = "10" />
+		<input type = "input" id = "gamma" value ="gamma" size = "10" />
 		<button id = "Start">Start</button>
 		<button id = "Stop">Stop</button></p>
 	   <p align ="center"><input type = "button" id = "train" value = "Train AI"/></p>
