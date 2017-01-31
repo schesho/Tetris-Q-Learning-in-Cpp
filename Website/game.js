@@ -1,5 +1,4 @@
-var pieces=[[0,1,0,1],[0,0,0,1],[1,0,0,1],[1,1,1,1],[0,1,1,1]];
-var int_state4 = 0;
+
 var state3 = [];
 var state3Q = [];
 
@@ -237,9 +236,6 @@ function Put_a_piece(x, y, piece, right_or_left, i, callback, Q){
 var first = 0;
 var second = 0;
 
-var piece = pieces[0];
-var pieceQ = pieces[0];
-
 // Random game round
 function Game_round(){
 	state3 = state4.slice();
@@ -361,31 +357,32 @@ function Game_roundQ(){
 			}
 		}
 	$("#heightQ").text(Number($("#heightQ").text())+height);
+	/*console.log("avant: ");
+	console.log(state4Q.slice(18,24));
+	console.log(state4Q.slice(12,18));
+	console.log(piece2, "position : ", position);
+	console.log("hauteur + " + height);
+	*/
+	
 	state4Q = definitive_state.slice();
-    console.log(state_index)
 	piece2 = rotate(pieceQ, rotation);
 	piece2 = Gravity(piece2);
     
-	/*if (height > 0){
-		console.log("avant: ");
-		console.log(state4Q.slice(18,24));
-		console.log(state4Q.slice(12,18));
-		console.log("hauteur + " + height)
-		console.log(piece2, "position : ", position)
-	}*/
+	/*
+	console.log("après: ");
+	console.log(state4Q.slice(18,24));
+	console.log(state4Q.slice(12,18));
+*/
 	
     if(r_lQ < 10){
 			Put_a_piece(position, 3, piece2, r_lQ, 0, function(){Clean_Game(0,1);}, 1);
 
 
     } else if (r_lQ==30){
-			if(piece2[0]+piece2[1]>0){
-				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(1,1);}, 1);
+				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(height,1);}, 1);
 
-            } else{
-				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(0,1)}, 1);
 
-			}
+			
     } else {
 			Put_a_piece(position, 1, piece2, 1, 0, function(){Clean_Game(2,1);}, 1)
 		}
