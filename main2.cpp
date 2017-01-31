@@ -55,9 +55,15 @@ int main(){
 
 
 	if ( data_success == 2){
+        cout << alpha << endl;
+        cout << gamma << endl;
+
 		QBrain Q(alpha,gamma,100);
 		Q.Train(number_training_games, number_training_pieces);
 		float* _pQ = Q.GetQ();
+
+        cout << _pQ[0] << endl;
+
 		for ( int i = 0 ; i < 4096 ; i++){
 			cout<<_pQ[i]<<" ";
 		}
