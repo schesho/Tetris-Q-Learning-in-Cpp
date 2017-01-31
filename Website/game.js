@@ -9,7 +9,8 @@ for (var j = 0; j < 36; j++){
 var state4 = state3.slice();
 var state4Q = state3Q.slice();
 
-
+// Il faudrait prendre l'input, on modifiera plus tard
+gamma = 0.8;
 
 function select_posQ(x, y){
 	return $(".brick#x" + y.toString() + x.toString() + "Q");
@@ -124,17 +125,18 @@ function check_state(h, state){
 	var h_mod = 0;
 	var first_level = 0;
 	var second_level = 0;
+
 	for ( var i = 0; i < 6; i++){
 		first_level += state[i + 12];
 		second_level += state[i + 18];
 	}
+
 	if ( second_level == 6){
 		h_mod += 1;
 		for ( var i = 0; i < 6; i++){
 			state[i + 18] = state[i + 24];
 			state[i + 24] = 0;
 			state[i + 30] = 0;
-
 		}
 	}
 
@@ -158,6 +160,7 @@ function check_state(h, state){
 			state[i + 30] = 0;
 		}
 	}
+    console.log(h_mod)
 	return [state, h_mod]
 }
 
@@ -293,18 +296,19 @@ function Game_roundQ(){
 	var next_state = state4Q.slice();
 	var definitive_state = state4Q.slice();
 	var piece2 = pieceQ.slice();
-	piece2=Gravity(piece2);
-	var r_lQ = check_if_possible(0, 0, piece2, next_state);
+    piece2=Gravity(piece2);
+    var r_lQ = check_if_possible(0, 0, piece2, next_state);
+
 
 	for (var i = 0; i < 5; i++){
-		for( var j = 0; j < 4; j++){
+		for(var j = 0; j < 4; j++){
 			var h = 0;
 			piece2 = rotate(pieceQ, j);
 			piece2 = Gravity(piece2);
 			next_state = state4Q.slice();
 
 			var r_l = check_if_possible(i, 0, piece2, next_state);
-			if (r_l <5){
+			if (r_l < 5){
 				next_state[12 + i] += piece2[2];
 				next_state[13 + i] += piece2[3];
 				next_state[18 + i] += piece2[0];
@@ -334,14 +338,16 @@ function Game_roundQ(){
 			next_state = rep[0];
 			h -= rep[1];
 			var int_representation = state_to_int(next_state);
-			
-			/*console.log(-100 *h + gamma * Qtable[int_representation],Math.max(h,0))
-			console.log(next_state.slice(18,24));
+
+			//console.log(-100 *h + gamma * Qtable[int_representation],Math.max(h,0))
+
+			/*console.log(next_state.slice(18,24));
 			console.log(next_state.slice(12,18));*/
+
 			if (-100 * h + gamma * Qtable[int_representation] >= min ){
 				height = Math.max(h,0);
 				definitive_state = next_state.slice();
-				min = -100 * h + Qtable[int_representation];
+				min = -100 * h + gamma * Qtable[int_representation];
 				state_index = int_representation;
 				position = i;
 				rotation = j;

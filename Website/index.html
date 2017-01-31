@@ -12,55 +12,55 @@
 var d = 0;
 var timeout = 10;
 Qtable=[];
-for (var i = 0; i < 4096; i++){
+for (var i = 0; i < 4096; i++) {
 	Qtable.push(0);
+}
 
-         $(document).ready(function() {
-         	
-            $("#train").click(function(event){
+	$(document).ready(function () {
 
-            	Qtable = [];
-				$.ajax({
-				    type: "POST",
-				    url: "cgi-bin/main.cgi",
-				    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-				    // les données transmises par POST sont indiquées par le paramètre data de l'objet $.ajax() : ici une simple chaîne de caractères
-				    data: {alpha:$("#alpha").val(), gamma: $("#gamma").val()},
-				    error:function(msg){
-				            alert( "Erreur : " + msg );
-				            },
-				    // le retour du CGI (sa sortie standard) est transmis au paramètre unique de la fonction configurée dans success :
-				    success:function(data){
-				    		var j = 0;
-				    		alert(data)
-				            for(var i = 0 ; i < data.length;i++){
-				            	if (data.charAt(i) ==' '){
-				            		Qtable.push(Number(data.slice(j,i)));
-				            		j=i+1;
-				            		i++;
-				            	}
-				            }
-				            alert("Entrainement effectué");
-				            console.log(Qtable)
+		$("#train").click(function (event) {
+			Qtable = [];
+			$.ajax({
+				type: "POST",
+				url: "cgi-bin/main.cgi",
+				contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+				// les données transmises par POST sont indiquées par le paramètre data de l'objet $.ajax() : ici une simple chaîne de caractères
+				data: {alpha: $("#alpha").val(), gamma: $("#gamma").val()},
+				error: function (msg) {
+					alert("Erreur : " + msg);
+				},
+				// le retour du CGI (sa sortie standard) est transmis au paramètre unique de la fonction configurée dans success :
+				success: function (data) {
+					var j = 0;
+					alert(data)
+					for (var i = 0; i < data.length; i++) {
+						if (data.charAt(i) == ' ') {
+							Qtable.push(Number(data.slice(j, i)));
+							j = i + 1;
+							i++;
+						}
+					}
+					alert("Entrainement effectué");
+					console.log(Qtable)
 
-				            
-				            }
-				    });
-			});
-			$("#Start").click(function(event){
-				if (d == 0){
-					refreshIntervalId =setInterval(Double_Game_round,timeout);
-					d += 1;
+
 				}
-				});
-			$("#Stop").click(function(event){
-				
-				clearInterval(refreshIntervalId);
-				d = 0;
-				
-				});
-         });
-         
+			});
+		});
+		$("#Start").click(function (event) {
+			if (d == 0) {
+				refreshIntervalId = setInterval(Double_Game_round, timeout);
+				d += 1;
+			}
+		});
+		$("#Stop").click(function (event) {
+
+			clearInterval(refreshIntervalId);
+			d = 0;
+
+		});
+	});
+
 </script>
 <script src="game.js"></script>
 
