@@ -3,7 +3,7 @@
 using namespace std;
 
 QBrain::QBrain() {
-    _alpha = 0.02;
+    _alpha = 0.2;
     _gamma = 0.8;
     _reward_coefficient = 100;
     _pQ = new float[_number_of_possible_states];
