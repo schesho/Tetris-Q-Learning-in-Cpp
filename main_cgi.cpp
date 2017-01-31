@@ -1,5 +1,3 @@
-// emscripten JS + C++
-
 #include <iostream>
 using namespace std;
 #include <vector>
@@ -14,8 +12,7 @@ using namespace std;
 #include <cgicc/Cgicc.h> 
 #include <cgicc/CgiEnvironment.h> 
 #include <cgicc/HTTPHTMLHeader.h> 
-#include <cgicc/HTMLClasses.h>  
-
+#include <cgicc/HTMLClasses.h>
 using namespace std;
 using namespace cgicc;
 
@@ -32,15 +29,18 @@ int main(){
     float gamma = 0;
 
 	Cgicc formData;
-	
+
+	// CGI header
 	cout << "Content-type:text/html\r\n\r\n";
+
+	// Form to get alpha and gamma
 
 	form_iterator fi_alpha = formData.getElement("alpha");
 
 	if( !fi_alpha->isEmpty() && fi_alpha != (*formData).end()) {  
 		alpha = stof( **fi_alpha );
 		data_success += 1;
-	}else{
+	} else {
 		cout << "Veuillez préciser le paramètre alpha" << endl;
 	}
 
@@ -53,7 +53,7 @@ int main(){
 		cout << "Veuillez préciser le paramètre alpha" << endl;
 	}
 
-
+	// If the user entered gamma and alpha we print the Q-table so the JS script can save it
 	if ( data_success == 2){
 
 		QBrain Q(alpha,gamma,100);

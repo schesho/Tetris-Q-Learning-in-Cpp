@@ -12,6 +12,7 @@ using namespace std;
 // Definition of a specific constructor
 // State 0 represents the following disposition on the field | 0 0 0 0 0 0 |
 //                                                           | 0 0 0 0 0 0 |
+
 Field::Field(){
     _state = 0;
     _height = 0;
@@ -41,8 +42,6 @@ void Field::NextHeight() {
 void Field::Display(){
 
     int s = _state;
-
-    //Line feed
 
     // The following block will print the top level of the state
     for(int i=11; i>5;i--) {
@@ -120,15 +119,15 @@ void Field::MakeMove(Piece p, int rotation, int position) {
         _state = _state | (64 * piece_shape);
         h+=1;
 
-    }
-     else {
+    } else {
         // if we have to add 2 lines, then given that the state only represents the two top_level lines the new state will be the piece
         _state = piece_shape;
         h += 2;
         _height += 2;
     }
     }
-    //removing full lines:
+
+    //remove full lines:
     if ((_state&(4095-63)) == (4095-63)){
         h-=1;
         _state -= (4095-63); // erase de top_level line of the state (because |1 1 1 1 1 1|)
@@ -145,6 +144,5 @@ void Field::MakeMove(Piece p, int rotation, int position) {
         _state /= 64;
         _height += 1;
     }
-
 
 }

@@ -14,9 +14,9 @@
 class QBrain {
 private:
     const int _number_of_possible_states = 4096;
-    const int _position_extent = 4; // the piece could be added between position 0 and 4 (because a piece is a 2*2 block)
+    const int _position_extent = 4; // the piece can be added between position 0 and 4 (because a piece is a 2*2 block)
     const int _number_of_rotation = 3;
-    float* _pQ;
+    float* _pQ; // QTable
     float _alpha;
     float _gamma;
     int _reward_coefficient;

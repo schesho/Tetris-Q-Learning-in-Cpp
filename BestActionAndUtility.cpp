@@ -9,9 +9,8 @@ BestActionAndUtility::BestActionAndUtility() {
     // Thus _utility is initialized with the lowest possible value
     _best_action1 = 0;
 
-    // action1 is the equivalent for the rotation (ie how many times should we rotate a given piece before inserting it in the game)
+    // action1 is the equivalent for the rotation (ie how many times we rotate a given piece before inserting it in the game)
     // action2 is the equivalent for the position ( given a piece and a state, the position where we will insert a piece)
-
     _best_action2 = 0;
 }
 
