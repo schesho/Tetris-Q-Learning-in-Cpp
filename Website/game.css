@@ -1,10 +1,35 @@
 #stack {
 
-    width: 936px;
+    width: 950px;
     height: 362px;
     margin-left: auto;
     margin-right: auto;
 
+
+}
+
+#height{
+    float: right;
+}
+#heightQ{
+    padding-left: 100;
+    float : right;
+}
+
+#pieces_number{
+    float : right;
+}
+#information_board{
+    width: 500;
+    height: 362;
+    float: left;
+}
+#control_panel{
+    position: relative;
+    width:400;
+
+    margin-left: auto;
+    margin-right: auto;
 
 }
 .random{
@@ -22,8 +47,7 @@
     height:100;
 
 
-    float: left;
-    margin-left: 10000;
+    margin-left: auto;
     margin-right: auto;
     padding-left: 100;
 
@@ -67,4 +91,13 @@
 }
 .brick.blocked.but{
 	background: rgb(19, 188, 124);
+}
+
+#start{
+    position: absolute;
+    width: 300;
+}
+
+#panel_box{
+    margin: 0 auto;
 }

@@ -1,6 +1,7 @@
 
 
 var pieces=[[0,1,0,1],[0,0,0,1],[1,0,0,1],[1,1,1,1],[0,1,1,1]]
+var int_state4 = 0;
 var state3 = [];
 var state3Q = [];
 for ( var j = 0; j < 36; j++){
@@ -74,6 +75,7 @@ function check(x,rot,piece,state){
 	for ( var i = 0; i<rot; i++){
 		piece = rotate(piece);
 	}
+
 	if ( ((state[x + 12] + piece[2]) < 2) && ((state[x + 13] + piece[3]) < 2) && ((state[x + 18] + piece[0]) < 2) && ((state[x + 19] + piece[1]) < 2) ){
 
 		if (((state[x + 18] + piece[2]) < 2) && ((state[x + 19] + piece[3]) < 2)){
@@ -155,7 +157,7 @@ function check_state(h,state){
 			state[i + 30] = 0;
 		}
 	}
-	return [state,h-h_mod]
+	return [state,h_mod]
 }
 
 
@@ -167,7 +169,7 @@ function Clean_Game(h,Q){
 	}
 	else{
 		select_function = select_posQ;
-		var state = state4Q
+		var state = state4Q;
 	}
 	state = check_state(h,state)[0];
 	for( var i = 0; i< 6; i++){
@@ -193,12 +195,10 @@ function Clean_Game(h,Q){
 function Put_a_piece(x,y,piece,right_or_left,i,callback,Q){
 	var r_l = 0;
 	if(Q == 1){
-		var state2 = state3Q;
-		var state = state4Q;
+		var state = state3Q;// ça sert à rien pour le Qtetris, le state4Q est déjà changé auparavant dans Game_roundQ
 		var class_string = ".Q.now";
 	}
 	else{
-		var state2 = state3;
 		var state = state4;
 		var class_string = ".now"
 	}
@@ -291,14 +291,14 @@ function Game_round(){
 function state_to_int(state){
 	var int_representation = 0;
 	for ( var i = 0; i < 6; i++){
-		int_representation += Math.pow(2, state[i + 12])
-		int_representation += Math.pow(2, state[i + 18])
+		int_representation += (Math.pow(2, i)*state[5 - i + 12]);// car les états de c++ vont de droite à gauche , alors qu'en javascript ils vont de gauche à droite 
+		int_representation += (Math.pow(2, i+6)*state[5 - i + 18]);
 	}
 	return int_representation;
 }
+
 function Game_roundQ(){
-	$(".state1").text(state4Q.slice(18,24));
-	$(".state2").text(state4Q.slice(12,18));
+
 	state3Q=state4Q.slice();
 	var state_index = 0;
 	var position = 0;
@@ -306,6 +306,7 @@ function Game_roundQ(){
 	var height = 0;
 	var min = Number.MIN_SAFE_INTEGER;
 	var next_state = state4Q.slice();
+	var definitive_state = state4Q.slice();
 	var piece2 = pieceQ.slice();
 	piece2=Gravity(piece2);
 	var r_lQ = check_if_possible(0,0,piece2,next_state);
@@ -316,12 +317,14 @@ function Game_roundQ(){
 			piece2 = rotate(pieceQ,j);
 			piece2 = Gravity(piece2);
 			next_state = state4Q.slice();
+
 			var r_l = check_if_possible(i,0,piece2,next_state)
 			if (r_l <5){
 				next_state[12 + i] += piece2[2];
 				next_state[13 + i] += piece2[3];
 				next_state[18 + i] += piece2[0];
 				next_state[19 + i] += piece2[1];
+
 
 			}
 			else if (r_l == 30){
@@ -348,10 +351,13 @@ function Game_roundQ(){
 			next_state = rep[0];
 			h -= rep[1];
 			var int_representation = state_to_int(next_state)
-
-			console.log(i,j,-100 *h + Qtable[int_representation],min)
-			if (-100 *h + Qtable[int_representation] > min ){
-				height = h;
+			
+			/*console.log(-100 *h + gamma * Qtable[int_representation],Math.max(h,0))
+			console.log(next_state.slice(18,24));
+			console.log(next_state.slice(12,18));*/
+			if (-100 *h + gamma * Qtable[int_representation] >= min ){
+				height = Math.max(h,0);
+				definitive_state = next_state.slice();
 				min = -100 *h + Qtable[int_representation];
 				state_index = int_representation;
 				position = i;
@@ -360,12 +366,17 @@ function Game_roundQ(){
 			}
 			}
 		}
-	console.log(state4Q.slice(18,24));
-	console.log(state4Q.slice(12,18));
-	console.log(pieceQ,position, rotation, h,r_lQ);
+	$("#heightQ").text(Number($("#heightQ").text())+height);
+	state4Q=definitive_state.slice();
 	piece2 = rotate(pieceQ, rotation);
 	piece2 = Gravity(piece2);
-	console.log(piece2)
+	/*if (height > 0){
+		console.log("avant: ");
+		console.log(state4Q.slice(18,24));
+		console.log(state4Q.slice(12,18));
+		console.log("hauteur + " + height)
+		console.log(piece2, "position : ", position)
+	}*/
 	if(r_lQ<10){
 
 			Put_a_piece(position,3,piece2,r_lQ,0,function(){Clean_Game(0,1);},1);
@@ -376,7 +387,7 @@ function Game_roundQ(){
 		else if (r_lQ==30){
 			if(piece2[0]+piece2[1]>0){
 
-				$("#heightQ").text(Number($("#heightQ").text())+1);
+				
 				Put_a_piece(position,2,piece2,1,0,function(){Clean_Game(1,1);},1)
 				}
 
@@ -391,28 +402,25 @@ function Game_roundQ(){
 		}
 
 		else{
-			$("#heightQ").text(Number($("#heightQ").text())+2);
+			
 			Put_a_piece(position,1,piece2,1,0,function(){Clean_Game(2,1);},1)
 
 		}
 
 
-	
-
 }
 
 function Double_Game_round(){
 	var rand = Math.floor(Math.random() * 5 );
-
-	$(".future").each(function(){$(this).removeClass("future");})
+	$(".future").each(function(){$(this).removeClass("future");});
+	$("#pieces_number").text(Number($("#pieces_number").text())+1);
 	piece = pieces[rand].slice();
 	pieceQ = pieces[rand].slice();
-	$("#f00").addClass(pieceQ[0] ? "future" : "")
-	$("#f01").addClass(pieceQ[1] ? "future" : "")
-	$("#f10").addClass(pieceQ[2] ? "future" : "")
-	$("#f11").addClass(pieceQ[3] ? "future" : "")
+	console.log($.inArray(2, state4Q))
+	$("#f12").addClass(pieceQ[0] ? "future" : "")
+	$("#f13").addClass(pieceQ[1] ? "future" : "")
+	$("#f22").addClass(pieceQ[2] ? "future" : "")
+	$("#f23").addClass(pieceQ[3] ? "future" : "")
 	Game_round();
 	Game_roundQ();
 }
-
-//setInterval(Double_Game_round,timeout);

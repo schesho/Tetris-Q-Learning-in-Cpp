@@ -9,8 +9,10 @@
 
 <script>
 
-var timeout = 2000;
+var d = 0;
+var timeout = 10;
 Qtable=[];
+var gamma = 0.8;
 for (var i = 0; i < 4096; i++){
 	Qtable.push(0);
 }
@@ -31,40 +33,49 @@ for (var i = 0; i < 4096; i++){
 				    // le retour du CGI (sa sortie standard) est transmis au paramètre unique de la fonction configurée dans success :
 				    success:function(data){
 				    		var j=0;
-
+				    		alert(data)
 				            for( var i = 0 ; i < data.length;i++){
 				            	if (data.charAt(i) ==' '){
-				            		Qtable.push(data.slice(j,i));
+				            		Qtable.push(Number(data.slice(j,i)));
 				            		j=i+1;
 				            		i++;
 				            	}
 				            }
 				            alert("Entrainement effectué");
+				            console.log(Qtable)
 
 				            
 				            }
 				    });
 			});
 			$("#Start").click(function(event){
-				refreshIntervalId =setInterval(Double_Game_round,timeout);
+				if (d == 0){
+					refreshIntervalId =setInterval(Double_Game_round,timeout);
+					d += 1;
+				}
 				});
 			$("#Stop").click(function(event){
+				
 				clearInterval(refreshIntervalId);
+				d = 0;
+				
 				});
          });
          
 </script>
-<script src="game.js"></script>
+<script src="game2.js"></script>
 
 
 
 </head>
   <body>
+<div id ="information_board">
+<div class="score">height random player :&nbsp&nbsp&nbsp<span id="height">0</span></div>
+<div class="score">height Qlearned player :&nbsp&nbsp&nbsp&nbsp <span id="heightQ">0</span><span id ="heightQ"></span></div>
+<div>Number of pieces :    <span id ="pieces_number">0</span></div>
 
-<div class="score">height: <span id="height">0</span><span id ="heightQ"></span></div>
-<div class ="state1"></div>
-<div class ="state2"></div>
-  <div id="stack">
+</div>
+ <div id="stack">
   <div class="random">
 	    <div id="y0">
 	        <div  id="x00" class="brick"></div><div id="x01" class="brick"></div><div id="x02" class="brick"></div><div id="x03" class="brick"></div><div id="x04" class="brick"></div><div id="x05" class="brick"></div>
@@ -88,14 +99,7 @@ for (var i = 0; i < 4096; i++){
 	        <div  id="x60" class="brick blocked"></div><div id="x61" class="brick blocked"></div><div id="x62" class="brick blocked"></div><div id="x63" class="brick blocked"></div><div id="x64" class="brick blocked"></div><div id="x65" class="brick blocked"></div>
 	    </div>
     </div>
-     <div class ="piece">
-    	<div class="line">
-    	<div id="f00" class="brick future"></div><div id="f01" class="brick future">
-    		</div>
-    		<div class="line">
-    	</div><div id="f10" class="brick future"></div><div id="f11" class="brick future"></div>
-    	</div>
-    	</div>
+
 	<div class="Qlearning">
 
 	    <div id="y0Q">
@@ -121,16 +125,34 @@ for (var i = 0; i < 4096; i++){
 	    </div>
 
 
-	</div>
-</div>
-<button id = "Start">Start</button>
-<button id = "Stop">Stop</button>
-<p>Entrez les paramètres d'entrainement</p>
-      <input type = "input" id = "alpha" value ="alpha" size = "1" /><br />
-	   <input type = "input" id = "gamma" value ="gamma" size = "1" /><br />
-		
-      <input type = "button" id = "train" value = "Entrainer l'IA" />
 
+	</div>
+
+<p align ="center"><br />current piece  <br />
+
+    <div class ="piece">
+
+
+    	<div><div id="f10" class="brick "></div><div id="f11" class="brick "></div><div id="f12" class="brick future"></div><div id="f13" class="brick future"></div><div id="f14" class="brick "></div><div id="f15" class="brick "></div>
+    	<div><div id="f20" class="brick "></div><div id="f21" class="brick"></div><div id="f22" class="brick future"></div><div id="f23" class="brick future"></div><div id="f24" class="brick "></div><div id="f25" class="brick "></div></div>
+    	</div>
+    </div>
+
+&nbsp
+
+</p>
+	
+</div>
+
+
+<div id ="control_panel"><p align ="center">
+		<input type = "input" id = "alpha" value ="alpha" size = "1" />
+		<input type = "input" id = "gamma" value ="gamma" size = "1" />
+		<button id = "Start">Start</button>
+		<button id = "Stop">Stop</button></p>
+	   <p align ="center"><input type = "button" id = "train" value = "Train AI"/></p>
+
+ </div>
   </body>
 </html>
 
