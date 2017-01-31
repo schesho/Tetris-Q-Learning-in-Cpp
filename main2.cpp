@@ -22,19 +22,21 @@ using namespace cgicc;
 
 int main(){
 
-	cout << "Content-type:text/html\r\n\r\n";
+    int number_training_games = 1000;
+    int number_training_pieces = 10000;
+    int number_game_pieces = 10000;
 
-    int number_training_games = 100;
-    int number_training_pieces = 1000;
-    int number_game_pieces = 1000;
-	int data_success = 0;
+    int data_success = 0;
 
-	float alpha = 0;
-	float gamma = 0;
+   	float alpha = 0;
+    float gamma = 0;
 
 	Cgicc formData;
+	
+	cout << "Content-type:text/html\r\n\r\n";
 
 	form_iterator fi_alpha = formData.getElement("alpha");
+
 	if( !fi_alpha->isEmpty() && fi_alpha != (*formData).end()) {  
 		alpha = stof( **fi_alpha );
 		data_success += 1;
@@ -48,9 +50,8 @@ int main(){
 		gamma = stof( **fi_alpha );
 		data_success += 1;
 	}else{
-		cout << "Veuillez préciser le paramètre gamma" << endl;
+		cout << "Veuillez préciser le paramètre alpha" << endl;
 	}
-
 
 
 	if ( data_success == 2){

@@ -1,0 +1,8 @@
+J'ai l'impression que le pb vient du fait que quand Game_roundQ parcourt les différents états possibles, 
+il: 1) ou bien ne récupère pas les bons états (et donc ne compare pas les bonnes valeurs d'utilités) 2) ou bien je récupère pas les bonnes valeurs dans la Qtable (genre je me suis trompé dans la fonction state_to_int)
+
+tout ce qui n'est pas en rapport avec la fonction Game_roundQ on s'en fout, c'est le tetris random et il a l'air de bien marcher.
+
+Donc dans tout les cas le pb vient de Game_roundQ et/ou de son interaction avec la Qtable, ( ou du code c++ mais il a l'air de fonctionner)
+
+pour augmenter ou diminuer la vitesse tu changes timeout dans index.html

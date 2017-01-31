@@ -75,15 +75,15 @@ void Field::Display(){
 // with the given rotation and position
 
 void Field::MakeMove(Piece p, int rotation, int position) {
-    // Recall: a state is either an in a matrix with 2 rows and 6 columns, therefore position respect:   0<=position<=5
+    // Recall: a state is either an in a matrix with 2 rows and 6 columns, therefore position respect:   0<=position<5
 
     p.Rotate(rotation);
     int h = 0;
     int piece_shape = p.GetShape();
-
+    bool reachable = false;
 
     //if after the rotation the piece is present only on the second level we push it on the bottom
-    // Newton's rule for the piece (can not lie on nothing)
+    // Newton's rule for the piece (could'nt lie on nothing)
     if(((piece_shape&1)+(piece_shape&2))==0){
         piece_shape/=64;
     }
@@ -91,21 +91,43 @@ void Field::MakeMove(Piece p, int rotation, int position) {
     //leftshift operator is the equivalent of moving all the bits of a number a specified number of places to the left
 
     // when there is a space on the field for the piece
-    if ((piece_shape&_state) == 0){
-        _state = _state|piece_shape;
+    if ((piece_shape&_state) == 0){ 
+        //checking if this space is actually reachable
+        if(((64*piece_shape) & _state) == 0){
+            //the piece could fall directly from the top
+            _state = _state|piece_shape;
+            reachable = true;
+        }
 
-    // if there is no no space on the bottom line (we have to add another line)
-    } else if (((64*piece_shape)&_state) == 0){
+        else if ((position > 0) && (((piece_shape/2)&_state) == 0) && (((piece_shape*32)&_state) == 0)){
+            //this free space could be accessed from the right side
+            _state = _state|piece_shape;
+            reachable = true;
+        }
+
+        else if ((position < 4) && (((piece_shape*2)&_state) == 0) && (((piece_shape*128)&_state) == 0)){
+            //this free space could be accessed from the left side
+            _state = _state|piece_shape;
+            reachable = true;
+        }
+
+    
+    } 
+    // if there is no no space (or it is not reachable) on the bottom line (we have to add another line)
+    if ( !reachable){
+    if (((64*piece_shape)&_state) == 0){
+        //we are adding just one line
         _state = _state | (64 * piece_shape);
-        h += 1;
+        h+=1;
 
-    } else {
+    }
+     else {
         // if we have to add 2 lines, then given that the state only represents the two top_level lines the new state will be the piece
         _state = piece_shape;
         h += 2;
         _height += 2;
     }
-
+    }
     //removing full lines:
     if ((_state&(4095-63)) == (4095-63)){
         h-=1;
