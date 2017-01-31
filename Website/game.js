@@ -56,17 +56,26 @@ function Draw_piece(x,y,rot,piece,on_or_now,Q){
 	else{
 		select_function = select_posQ;
 	}
+
 	for( var i = 0; i < rot; i++){
 		piece = rotate(piece);
 	}
+
 	if(!select_function(x,y).hasClass(on_or_now)){
-	select_function(x,y).addClass(piece[0] ? on_or_now : "" );}
+	select_function(x,y).addClass(piece[0] ? on_or_now : "" );
+	}
+
 	if(!select_posQ(x+1,y).hasClass(on_or_now)){
-	select_function(x+1,y).addClass(piece[1] ? on_or_now : "" );}
+	select_function(x+1,y).addClass(piece[1] ? on_or_now : "" );
+	}
+
 	if(!select_posQ(x,y+1).hasClass(on_or_now)){
-	select_function(x,y+1).addClass(piece[2] ? on_or_now : "" );}
+	select_function(x,y+1).addClass(piece[2] ? on_or_now : "" );
+	}
+
 	if(!select_function(x+1,y+1).hasClass(on_or_now)){
-	select_function(x+1,y+1).addClass(piece[3] ? on_or_now : "" );}
+	select_function(x+1,y+1).addClass(piece[3] ? on_or_now : "" );
+	}
 }
 
 
@@ -84,12 +93,10 @@ function check(x,rot,piece,state){
 		else{
 			return 2;
 			}
-	}
-	else{
+	} else {
 		if ( ((state[x + 18] + piece[2]) < 2) && ((state[x + 19] + piece[3]) < 2)){
 		return 3;
-		}
-		else{
+		} else {
 			return 4;
 		}
 	}
@@ -99,24 +106,20 @@ function check(x,rot,piece,state){
 function check_if_possible(x,rot,piece,state){
 	if (check(x,rot,piece,state) == 1){
 		return 1;
-	}
-	else if (check(x,rot,piece,state) > 2){
+
+	} else if (check(x,rot,piece,state) > 2){
 		return check(x,rot,piece,state)*10;
-		}
-	else if (check(x,rot,piece,state) == 2){
-		if(x < 5 && check(x + 1, rot, piece,state) == 1)
-			return 2;
-			
-		else if (x > 0 && check(x - 1,rot,piece,state) == 1){
+
+    } else if (check(x,rot,piece,state) == 2) {
+        if (x < 5 && check(x + 1, rot, piece, state) == 1) {
+            return 2;
+        } else if (x > 0 && check(x - 1,rot,piece,state) == 1){
 			return 3;
 
-			}
-		else{
+        } else {
 			return 40;
 		}
 		}
-
-
 }
 
 function check_state(h,state){

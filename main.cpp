@@ -10,9 +10,9 @@ using namespace std;
 
 int main(){
 
-	int number_training_games = 100;
-    int number_training_pieces = 1000;
-    int number_game_pieces = 1000;
+	int number_training_games = 1000;
+    int number_training_pieces = 10000;
+    int number_game_pieces = 10000;
 
     QBrain Q;
 
