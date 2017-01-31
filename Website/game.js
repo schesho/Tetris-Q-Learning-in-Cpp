@@ -14,30 +14,35 @@ var state4Q = state3Q.slice();
 
 
 
-function select_posQ(x,y){
+function select_posQ(x, y){
 	return $(".brick#x"+y.toString()+x.toString()+"Q");
 }
-function select_pos(x,y){
+function select_pos(x, y){
 	return $(".brick#x"+y.toString()+x.toString());
 }
 
-function rotate(piece,n=1){
+// Rotates a piece
+function rotate(piece, n=1){
 	var piece1 = piece.slice();
-	var piece2 = piece.slice();
-	for ( var i = 0; i < n; i++){
-		var piece2=[0,0,0,0];
+	// La ligne suivante est necessaire ?
+    var piece2 = piece.slice();
+
+	for (var i = 0; i < n; i++){
+		var piece2 = [0,0,0,0];
 		piece2[0] = piece1[2];
 		piece2[1] = piece1[0];
 		piece2[3] = piece1[1];
 		piece2[2] = piece1[3];
-		piece1=piece2.slice()
+		piece1 = piece2.slice()
 	}
 	return piece2;
 }
 
+// makes the piece fall (can not lie on nothing)
 function Gravity(piece){
 	var piece2 = piece.slice();
-	if (piece[2] + piece[3] < 1){
+    // if the lower part of the piece is empty we make the upper part fall
+	if (piece[2] + piece[3] == 0){
 		piece2[2] = piece[0];
 		piece2[3] = piece[1];
 		piece2[1] = 0;
@@ -46,7 +51,7 @@ function Gravity(piece){
 	return piece2;
 }
 
-function Draw_piece(x,y,rot,piece,on_or_now,Q){
+function Draw_piece(x, y, rot, piece, on_or_now, Q){
 	if(Q == 0){
 		select_function = select_pos;
 	} else{
@@ -57,26 +62,26 @@ function Draw_piece(x,y,rot,piece,on_or_now,Q){
 		piece = rotate(piece);
 	}
 
-	if(!select_function(x,y).hasClass(on_or_now)){
+	if(!select_function(x, y).hasClass(on_or_now)){
 	select_function(x,y).addClass(piece[0] ? on_or_now : "" );
 	}
 
-	if(!select_posQ(x+1,y).hasClass(on_or_now)){
-	select_function(x+1,y).addClass(piece[1] ? on_or_now : "" );
+	if(!select_posQ(x+1, y).hasClass(on_or_now)){
+	select_function(x+1, y).addClass(piece[1] ? on_or_now : "" );
 	}
 
-	if(!select_posQ(x,y+1).hasClass(on_or_now)){
-	select_function(x,y+1).addClass(piece[2] ? on_or_now : "" );
+	if(!select_posQ(x, y+1).hasClass(on_or_now)){
+	select_function(x, y+1).addClass(piece[2] ? on_or_now : "" );
 	}
 
-	if(!select_function(x+1,y+1).hasClass(on_or_now)){
-	select_function(x+1,y+1).addClass(piece[3] ? on_or_now : "" );
+	if(!select_function(x+1, y+1).hasClass(on_or_now)){
+	select_function(x+1, y+1).addClass(piece[3] ? on_or_now : "" );
 	}
 }
 
 
 
-function check(x,rot,piece,state){
+function check(x, rot, piece, state){
 	for ( var i = 0; i<rot; i++){
 		piece = rotate(piece);
 	}
@@ -98,17 +103,17 @@ function check(x,rot,piece,state){
 
 }
 
-function check_if_possible(x,rot,piece,state){
-	if (check(x,rot,piece,state) == 1){
+function check_if_possible(x, rot, piece, state){
+	if (check(x, rot, piece, state) == 1){
 		return 1;
 
-	} else if (check(x,rot,piece,state) > 2){
-		return check(x,rot,piece,state)*10;
+	} else if (check(x, rot, piece, state) > 2){
+		return check(x, rot, piece, state)*10;
 
-    } else if (check(x,rot,piece,state) == 2) {
+    } else if (check(x, rot, piece, state) == 2) {
         if (x < 5 && check(x + 1, rot, piece, state) == 1) {
             return 2;
-        } else if (x > 0 && check(x - 1,rot,piece,state) == 1){
+        } else if (x > 0 && check(x - 1, rot, piece, state) == 1){
 			return 3;
 
         } else {
@@ -117,7 +122,7 @@ function check_if_possible(x,rot,piece,state){
 		}
 }
 
-function check_state(h,state){
+function check_state(h, state){
 	var h_mod = 0;
 	var first_level = 0;
 	var second_level = 0;
@@ -155,11 +160,11 @@ function check_state(h,state){
 			state[i + 30] = 0;
 		}
 	}
-	return [state,h_mod]
+	return [state, h_mod]
 }
 
 
-function Clean_Game(h,Q){
+function Clean_Game(h, Q){
 	
 	if(Q == 0){
 		select_function = select_pos;
@@ -168,7 +173,7 @@ function Clean_Game(h,Q){
 		select_function = select_posQ;
 		var state = state4Q;
 	}
-	state = check_state(h,state)[0];
+	state = check_state(h, state)[0];
 	for( var i = 0; i< 6; i++){
 		select_function(i,6).removeClass("but");
 		select_function(i,6).addClass(state[i] ? "but" : "");
@@ -189,7 +194,7 @@ function Clean_Game(h,Q){
 }
 
 
-function Put_a_piece(x,y,piece,right_or_left,i,callback,Q){
+function Put_a_piece(x, y, piece, right_or_left, i, callback, Q){
 	var r_l = 0;
 	if(Q == 1){
 		var state = state3Q;// ça sert à rien pour le Qtetris, le state4Q est déjà changé auparavant dans Game_roundQ
@@ -207,11 +212,11 @@ function Put_a_piece(x,y,piece,right_or_left,i,callback,Q){
 
 	$(class_string).each(function(){$(this).removeClass("now");})
 	if( i !=y ){
-		Draw_piece(x+r_l,i,0,piece,"now",Q)
+		Draw_piece(x+r_l, i, 0, piece, "now", Q)
 		setTimeout(function(){Put_a_piece(x, y,piece, right_or_left, i + 1, callback,Q);},timeout/10);
 	} else {
-		Draw_piece(x + r_l,y,0,piece,"now",Q);
-		Draw_piece(x,y,0,piece,"on",Q);
+		Draw_piece(x + r_l, y, 0, piece, "now", Q);
+		Draw_piece(x, y, 0, piece, "on", Q);
 
 		$(class_string).each(function(){$(this).removeClass("now");})
 
@@ -222,7 +227,7 @@ function Put_a_piece(x,y,piece,right_or_left,i,callback,Q){
 		state[x + 6*(6 - y - 1) + 1] += piece[3];
 
 		first+=1;
-		setTimeout(callback,timeout/10);
+		setTimeout(callback, timeout/10);
 	}
 }
 
@@ -251,20 +256,20 @@ function Game_round(){
 
 	if(right_or_left<10){
 
-		Put_a_piece(rand,3,piece,right_or_left,0,function(){Clean_Game(0,0);},0);
+		Put_a_piece(rand, 3, piece, right_or_left, 0, function(){Clean_Game(0,0);}, 0);
 
 	} else if (right_or_left==30){
 		if(piece[0]+piece[1]>0){
 			$("#height").text(Number($("#height").text())+1);
-			Put_a_piece(rand,2,piece,1,0,function(){Clean_Game(1,0);},0)
+			Put_a_piece(rand, 2, piece, 1, 0, function(){Clean_Game(1,0);}, 0)
 
         } else {
-			Put_a_piece(rand,2,piece,1,0,function(){Clean_Game(0,0)},0);
+			Put_a_piece(rand, 2, piece, 1, 0, function(){Clean_Game(0,0)}, 0);
 		}
 
 	} else{
 		$("#height").text(Number($("#height").text())+2);
-		Put_a_piece(rand,1,piece,1,0,function(){Clean_Game(2,0);},0)
+		Put_a_piece(rand, 1, piece, 1, 0, function(){Clean_Game(2,0);}, 0)
 	}
 
 	
@@ -290,16 +295,16 @@ function Game_roundQ(){
 	var definitive_state = state4Q.slice();
 	var piece2 = pieceQ.slice();
 	piece2=Gravity(piece2);
-	var r_lQ = check_if_possible(0,0,piece2,next_state);
+	var r_lQ = check_if_possible(0, 0, piece2, next_state);
 
 	for (var i = 0; i < 5; i++){
 		for( var j = 0; j < 4; j++){
 			h = 0
-			piece2 = rotate(pieceQ,j);
+			piece2 = rotate(pieceQ, j);
 			piece2 = Gravity(piece2);
 			next_state = state4Q.slice();
 
-			var r_l = check_if_possible(i,0,piece2,next_state)
+			var r_l = check_if_possible(i, 0, piece2, next_state)
 			if (r_l <5){
 				next_state[12 + i] += piece2[2];
 				next_state[13 + i] += piece2[3];
@@ -326,7 +331,7 @@ function Game_roundQ(){
 				h += 2;
 			}
 
-			rep = check_state(0,next_state);
+			rep = check_state(0, next_state);
 			next_state = rep[0];
 			h -= rep[1];
 			var int_representation = state_to_int(next_state)
@@ -358,21 +363,19 @@ function Game_roundQ(){
 	}*/
 	if(r_lQ<10){
 
-			Put_a_piece(position,3,piece2,r_lQ,0,function(){Clean_Game(0,1);},1);
+			Put_a_piece(position, 3, piece2, r_lQ, 0, function(){Clean_Game(0,1);}, 1);
 
 
 		} else if (r_lQ==30){
 			if(piece2[0]+piece2[1]>0){
+				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(1,1);}, 1)
 
-				
-				Put_a_piece(position,2,piece2,1,0,function(){Clean_Game(1,1);},1)
             } else{
-
-				Put_a_piece(position,2,piece2,1,0,function(){Clean_Game(0,1)},1);
+				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(0,1)}, 1);
 
 			}
 		} else{
-			Put_a_piece(position,1,piece2,1,0,function(){Clean_Game(2,1);},1)
+			Put_a_piece(position, 1, piece2, 1, 0, function(){Clean_Game(2,1);}, 1)
 		}
 
 }
