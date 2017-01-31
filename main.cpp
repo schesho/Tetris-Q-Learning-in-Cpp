@@ -20,10 +20,6 @@ int main(){
 
     Q.Game(number_game_pieces);
 
-    float* _pQ = Q.GetQ();
-    for ( int i = 0 ; i < 4096 ; i++){
-        cout<<_pQ[i]<<" ";
-    }
 
 	return 0;
 

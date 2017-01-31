@@ -2,10 +2,12 @@ var pieces=[[0,1,0,1],[0,0,0,1],[1,0,0,1],[1,1,1,1],[0,1,1,1]];
 var int_state4 = 0;
 var state3 = [];
 var state3Q = [];
+
 for (var j = 0; j < 36; j++){
 	state3.push(0);
 	state3Q.push(0);
 }
+
 var state4 = state3.slice();
 var state4Q = state3Q.slice();
 
@@ -243,11 +245,8 @@ function Game_round(){
 	state3 = state4.slice();
 	second += 1;
 
-    // Ligne suivante inutile
-	var rand = Math.floor(Math.random() * 4 );
-
 	//random algorithm
-	rand = Math.floor(Math.random() * 4);
+	var rand = Math.floor(Math.random() * 4);
 	piece = rotate(piece,rand);
 	piece = Gravity(piece);
 
@@ -285,7 +284,7 @@ function state_to_int(state){
 
 function Game_roundQ(){
 
-	state3Q=state4Q.slice();
+	state3Q = state4Q.slice();
 	var state_index = 0;
 	var position = 0;
 	var rotation = 0;
@@ -342,16 +341,13 @@ function Game_roundQ(){
             // ici h vaut le nombre d'etagesm montes - nombre de lignes effacees
             // dans notre jeu on ne peut pas redescendre donc h doit etre positif
 
-            console.log(next_state.slice(12,24))
 			var int_representation = state_to_int(next_state);
-            console.log(int_representation)
 
 			/*console.log(-100 *h + gamma * Qtable[int_representation],Math.max(h,0))
             console.log(next_state.slice(18,24));
 			console.log(next_state.slice(12,18));*/
 
             // h peut prendre des valeurs négatives, pas comme dans le code c++, il faut remplacer h par max(h,0) ?
-
 
             if (-100 * Math.max(h,0) + gamma * Qtable[int_representation] >= min ){
                 height = Math.max(h,0);
@@ -366,6 +362,7 @@ function Game_roundQ(){
 		}
 	$("#heightQ").text(Number($("#heightQ").text())+height);
 	state4Q = definitive_state.slice();
+    console.log(state_index)
 	piece2 = rotate(pieceQ, rotation);
 	piece2 = Gravity(piece2);
     
@@ -399,8 +396,9 @@ function Double_Game_round(){
 	var rand = Math.floor(Math.random() * 5 );
 	$(".future").each(function(){$(this).removeClass("future");});
 	$("#pieces_number").text(Number($("#pieces_number").text())+1);
-	piece = pieces[rand].slice();
-	pieceQ = pieces[rand].slice();
+    var random_piece = [Math.floor(Math.random()*2), Math.floor(Math.random()*2), Math.floor(Math.random()*2), Math.floor(Math.random()*2)]
+	piece = random_piece.slice();
+	pieceQ = random_piece.slice();
 	//console.log($.inArray(2, state4Q));
 	$("#f12").addClass(pieceQ[0] ? "future" : "");
 	$("#f13").addClass(pieceQ[1] ? "future" : "");
