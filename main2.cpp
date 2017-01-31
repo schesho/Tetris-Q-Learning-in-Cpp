@@ -46,8 +46,8 @@ int main(){
 
 	form_iterator fi_gamma = formData.getElement("gamma");
 
-	if( !fi_gamma->isEmpty() && fi_alpha != (*formData).end()) {  
-		gamma = stof( **fi_alpha );
+	if( !fi_gamma->isEmpty() && fi_gamma != (*formData).end()) {
+		gamma = stof( **fi_gamma );
 		data_success += 1;
 	}else{
 		cout << "Veuillez préciser le paramètre alpha" << endl;
