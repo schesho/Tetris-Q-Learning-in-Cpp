@@ -30,10 +30,7 @@ function rotate(piece,n=1){
 		piece2[1] = piece1[0];
 		piece2[3] = piece1[1];
 		piece2[2] = piece1[3];
-		
 		piece1=piece2.slice()
-
-		
 	}
 	return piece2;
 }
@@ -52,8 +49,7 @@ function Gravity(piece){
 function Draw_piece(x,y,rot,piece,on_or_now,Q){
 	if(Q == 0){
 		select_function = select_pos;
-	}
-	else{
+	} else{
 		select_function = select_posQ;
 	}
 
@@ -89,8 +85,7 @@ function check(x,rot,piece,state){
 
 		if (((state[x + 18] + piece[2]) < 2) && ((state[x + 19] + piece[3]) < 2)){
 			return 1;
-			}
-		else{
+        } else {
 			return 2;
 			}
 	} else {
@@ -169,8 +164,7 @@ function Clean_Game(h,Q){
 	if(Q == 0){
 		select_function = select_pos;
 		var state = state4;
-	}
-	else{
+	} else {
 		select_function = select_posQ;
 		var state = state4Q;
 	}
@@ -200,15 +194,14 @@ function Put_a_piece(x,y,piece,right_or_left,i,callback,Q){
 	if(Q == 1){
 		var state = state3Q;// ça sert à rien pour le Qtetris, le state4Q est déjà changé auparavant dans Game_roundQ
 		var class_string = ".Q.now";
-	}
-	else{
+	} else {
 		var state = state4;
 		var class_string = ".now"
 	}
+
 	if( right_or_left == 2){
 		r_l = 1;
-	}
-	else if ( right_or_left == 3){
+	} else if ( right_or_left == 3){
 		r_l = -1;
 	}
 
@@ -216,8 +209,7 @@ function Put_a_piece(x,y,piece,right_or_left,i,callback,Q){
 	if( i !=y ){
 		Draw_piece(x+r_l,i,0,piece,"now",Q)
 		setTimeout(function(){Put_a_piece(x, y,piece, right_or_left, i + 1, callback,Q);},timeout/10);
-	}
-	else{
+	} else {
 		Draw_piece(x + r_l,y,0,piece,"now",Q);
 		Draw_piece(x,y,0,piece,"on",Q);
 
@@ -241,19 +233,16 @@ var second = 0;
 
 var piece = pieces[0];
 var pieceQ = pieces[0];
+
 function Game_round(){
 
 	state3 = state4.slice()
 	second += 1;
 	var rand = Math.floor(Math.random() * 4 );
 
-
-
 	//random algorithm
 	rand=Math.floor(Math.random() * 4);
 	piece = rotate(piece,rand);
-
-
 
 	piece = Gravity(piece);
 	rand = Math.floor(Math.random()*5)
@@ -264,29 +253,18 @@ function Game_round(){
 
 		Put_a_piece(rand,3,piece,right_or_left,0,function(){Clean_Game(0,0);},0);
 
-	}
-
-	else if (right_or_left==30){
+	} else if (right_or_left==30){
 		if(piece[0]+piece[1]>0){
-
 			$("#height").text(Number($("#height").text())+1);
 			Put_a_piece(rand,2,piece,1,0,function(){Clean_Game(1,0);},0)
-			}
 
-
-		
-
-		else{
-
+        } else {
 			Put_a_piece(rand,2,piece,1,0,function(){Clean_Game(0,0)},0);
-
 		}
-	}
 
-	else{
+	} else{
 		$("#height").text(Number($("#height").text())+2);
 		Put_a_piece(rand,1,piece,1,0,function(){Clean_Game(2,0);},0)
-
 	}
 
 	
@@ -329,8 +307,7 @@ function Game_roundQ(){
 				next_state[19 + i] += piece2[1];
 
 
-			}
-			else if (r_l == 30){
+			} else if (r_l == 30){
 				next_state[18 + i] += piece2[2];
 				next_state[19 + i] += piece2[3];
 				next_state[24 + i] += piece2[0];
@@ -341,8 +318,7 @@ function Game_roundQ(){
 				}
 
 
-			}
-			else if (r_l == 40){
+			} else if (r_l == 40){
 				next_state[24 + i] += piece2[2];
 				next_state[25 + i] += piece2[3];
 				next_state[30 + i] += piece2[0];
@@ -385,31 +361,19 @@ function Game_roundQ(){
 			Put_a_piece(position,3,piece2,r_lQ,0,function(){Clean_Game(0,1);},1);
 
 
-		}
-
-		else if (r_lQ==30){
+		} else if (r_lQ==30){
 			if(piece2[0]+piece2[1]>0){
 
 				
 				Put_a_piece(position,2,piece2,1,0,function(){Clean_Game(1,1);},1)
-				}
-
-
-			
-
-			else{
+            } else{
 
 				Put_a_piece(position,2,piece2,1,0,function(){Clean_Game(0,1)},1);
 
 			}
-		}
-
-		else{
-			
+		} else{
 			Put_a_piece(position,1,piece2,1,0,function(){Clean_Game(2,1);},1)
-
 		}
-
 
 }
 
