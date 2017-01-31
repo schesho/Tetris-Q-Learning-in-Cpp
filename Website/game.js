@@ -160,7 +160,6 @@ function check_state(h, state){
 			state[i + 30] = 0;
 		}
 	}
-    console.log(h_mod)
 	return [state, h_mod]
 }
 
@@ -278,8 +277,8 @@ function Game_round(){
 function state_to_int(state){
 	var int_representation = 0;
 	for ( var i = 0; i < 6; i++){
-		int_representation += (Math.pow(2, i)*state[5 - i + 12]);// car les états de c++ vont de droite à gauche , alors qu'en javascript ils vont de gauche à droite 
-		int_representation += (Math.pow(2, i+6)*state[5 - i + 18]);
+		int_representation += (Math.pow(2, i) * state[5 - i + 12]);// car les états de c++ vont de droite à gauche , alors qu'en javascript ils vont de gauche à droite
+		int_representation += (Math.pow(2, i+6) * state[5 - i + 18]);
 	}
 	return int_representation;
 }
@@ -287,7 +286,6 @@ function state_to_int(state){
 function Game_roundQ(){
 
 	state3Q=state4Q.slice();
-
 	var state_index = 0;
 	var position = 0;
 	var rotation = 0;
@@ -296,25 +294,28 @@ function Game_roundQ(){
 	var next_state = state4Q.slice();
 	var definitive_state = state4Q.slice();
 	var piece2 = pieceQ.slice();
-    piece2=Gravity(piece2);
+    piece2 = Gravity(piece2);
     var r_lQ = check_if_possible(0, 0, piece2, next_state);
-
 
 	for (var i = 0; i < 5; i++){
 		for(var j = 0; j < 4; j++){
+
 			var h = 0;
+            // Rotation et gravity ok
 			piece2 = rotate(pieceQ, j);
 			piece2 = Gravity(piece2);
 			next_state = state4Q.slice();
 
 			var r_l = check_if_possible(i, 0, piece2, next_state);
-			if (r_l < 5){
+
+            // On reste sur le meme etage
+            if (r_l < 5){
 				next_state[12 + i] += piece2[2];
 				next_state[13 + i] += piece2[3];
 				next_state[18 + i] += piece2[0];
 				next_state[19 + i] += piece2[1];
 
-
+            // On monte de 1 etage
 			} else if (r_l == 30){
 				next_state[18 + i] += piece2[2];
 				next_state[19 + i] += piece2[3];
@@ -325,7 +326,7 @@ function Game_roundQ(){
 					h += 1;
 				}
 
-
+            // On monte de 2 etages
 			} else if (r_l == 40){
 				next_state[24 + i] += piece2[2];
 				next_state[25 + i] += piece2[3];
@@ -334,20 +335,28 @@ function Game_roundQ(){
 				h += 2;
 			}
 
-			rep = check_state(0, next_state);
+			var rep = check_state(0, next_state);
 			next_state = rep[0];
+            // rep[1] est le nombre de lignes effacees
 			h -= rep[1];
+            // ici h vaut le nombre d'etagesm montes - nombre de lignes effacees
+            // dans notre jeu on ne peut pas redescendre donc h doit etre positif
+
+            console.log(next_state.slice(12,24))
 			var int_representation = state_to_int(next_state);
+            console.log(int_representation)
 
-			//console.log(-100 *h + gamma * Qtable[int_representation],Math.max(h,0))
-
-			/*console.log(next_state.slice(18,24));
+			/*console.log(-100 *h + gamma * Qtable[int_representation],Math.max(h,0))
+            console.log(next_state.slice(18,24));
 			console.log(next_state.slice(12,18));*/
 
-			if (-100 * h + gamma * Qtable[int_representation] >= min ){
-				height = Math.max(h,0);
+            // h peut prendre des valeurs négatives, pas comme dans le code c++, il faut remplacer h par max(h,0) ?
+
+
+            if (-100 * Math.max(h,0) + gamma * Qtable[int_representation] >= min ){
+                height = Math.max(h,0);
 				definitive_state = next_state.slice();
-				min = -100 * h + gamma * Qtable[int_representation];
+				min = -100 * Math.max(h,0) + gamma * Qtable[int_representation];
 				state_index = int_representation;
 				position = i;
 				rotation = j;
@@ -368,12 +377,11 @@ function Game_roundQ(){
 		console.log(piece2, "position : ", position)
 	}*/
 	
-    if(r_lQ<10){
-
+    if(r_lQ < 10){
 			Put_a_piece(position, 3, piece2, r_lQ, 0, function(){Clean_Game(0,1);}, 1);
 
 
-		} else if (r_lQ==30){
+    } else if (r_lQ==30){
 			if(piece2[0]+piece2[1]>0){
 				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(1,1);}, 1);
 
@@ -381,7 +389,7 @@ function Game_roundQ(){
 				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(0,1)}, 1);
 
 			}
-		} else{
+    } else {
 			Put_a_piece(position, 1, piece2, 1, 0, function(){Clean_Game(2,1);}, 1)
 		}
 
@@ -393,7 +401,7 @@ function Double_Game_round(){
 	$("#pieces_number").text(Number($("#pieces_number").text())+1);
 	piece = pieces[rand].slice();
 	pieceQ = pieces[rand].slice();
-	console.log($.inArray(2, state4Q));
+	//console.log($.inArray(2, state4Q));
 	$("#f12").addClass(pieceQ[0] ? "future" : "");
 	$("#f13").addClass(pieceQ[1] ? "future" : "");
 	$("#f22").addClass(pieceQ[2] ? "future" : "");
