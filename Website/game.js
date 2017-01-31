@@ -1,4 +1,4 @@
-var pieces=[[0,1,0,1],[0,0,0,1],[1,0,0,1],[1,1,1,1],[0,1,1,1]]
+var pieces=[[0,1,0,1],[0,0,0,1],[1,0,0,1],[1,1,1,1],[0,1,1,1]];
 var int_state4 = 0;
 var state3 = [];
 var state3Q = [];
@@ -207,15 +207,15 @@ function Put_a_piece(x, y, piece, right_or_left, i, callback, Q){
 		r_l = -1;
 	}
 
-	$(class_string).each(function(){$(this).removeClass("now");})
+	$(class_string).each(function(){$(this).removeClass("now");});
 	if( i !=y ){
-		Draw_piece(x+r_l, i, 0, piece, "now", Q)
+		Draw_piece(x+r_l, i, 0, piece, "now", Q);
 		setTimeout(function(){Put_a_piece(x, y,piece, right_or_left, i + 1, callback,Q);},timeout/10);
 	} else {
 		Draw_piece(x + r_l, y, 0, piece, "now", Q);
 		Draw_piece(x, y, 0, piece, "on", Q);
 
-		$(class_string).each(function(){$(this).removeClass("now");})
+		$(class_string).each(function(){$(this).removeClass("now");});
 
 
 		state[x + 6*(6 - y)] += piece[0];
@@ -238,7 +238,7 @@ var pieceQ = pieces[0];
 
 // Random game round
 function Game_round(){
-	state3 = state4.slice()
+	state3 = state4.slice();
 	second += 1;
 
     // Ligne suivante inutile
@@ -249,7 +249,7 @@ function Game_round(){
 	piece = rotate(piece,rand);
 	piece = Gravity(piece);
 
-	rand = Math.floor(Math.random()*5)
+	rand = Math.floor(Math.random()*5);
 	var right_or_left = check_if_possible(rand,0,piece,state4);
 
 
@@ -259,7 +259,7 @@ function Game_round(){
 	} else if (right_or_left==30){
 		if(piece[0] + piece[1]>0){
 			$("#height").text(Number($("#height").text())+1);
-			Put_a_piece(rand, 2, piece, 1, 0, function(){Clean_Game(1,0);}, 0)
+			Put_a_piece(rand, 2, piece, 1, 0, function(){Clean_Game(1,0);}, 0);
 
         } else {
 			Put_a_piece(rand, 2, piece, 1, 0, function(){Clean_Game(0,0)}, 0);
@@ -267,7 +267,7 @@ function Game_round(){
 
 	} else{
 		$("#height").text(Number($("#height").text())+2);
-		Put_a_piece(rand, 1, piece, 1, 0, function(){Clean_Game(2,0);}, 0)
+		Put_a_piece(rand, 1, piece, 1, 0, function(){Clean_Game(2,0);}, 0);
 	}
 
 	
@@ -298,12 +298,12 @@ function Game_roundQ(){
 
 	for (var i = 0; i < 5; i++){
 		for( var j = 0; j < 4; j++){
-			h = 0
+			var h = 0;
 			piece2 = rotate(pieceQ, j);
 			piece2 = Gravity(piece2);
 			next_state = state4Q.slice();
 
-			var r_l = check_if_possible(i, 0, piece2, next_state)
+			var r_l = check_if_possible(i, 0, piece2, next_state);
 			if (r_l <5){
 				next_state[12 + i] += piece2[2];
 				next_state[13 + i] += piece2[3];
@@ -333,7 +333,7 @@ function Game_roundQ(){
 			rep = check_state(0, next_state);
 			next_state = rep[0];
 			h -= rep[1];
-			var int_representation = state_to_int(next_state)
+			var int_representation = state_to_int(next_state);
 			
 			/*console.log(-100 *h + gamma * Qtable[int_representation],Math.max(h,0))
 			console.log(next_state.slice(18,24));
@@ -369,7 +369,7 @@ function Game_roundQ(){
 
 		} else if (r_lQ==30){
 			if(piece2[0]+piece2[1]>0){
-				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(1,1);}, 1)
+				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(1,1);}, 1);
 
             } else{
 				Put_a_piece(position, 2, piece2, 1, 0, function(){Clean_Game(0,1)}, 1);
@@ -387,11 +387,11 @@ function Double_Game_round(){
 	$("#pieces_number").text(Number($("#pieces_number").text())+1);
 	piece = pieces[rand].slice();
 	pieceQ = pieces[rand].slice();
-	console.log($.inArray(2, state4Q))
-	$("#f12").addClass(pieceQ[0] ? "future" : "")
-	$("#f13").addClass(pieceQ[1] ? "future" : "")
-	$("#f22").addClass(pieceQ[2] ? "future" : "")
-	$("#f23").addClass(pieceQ[3] ? "future" : "")
+	console.log($.inArray(2, state4Q));
+	$("#f12").addClass(pieceQ[0] ? "future" : "");
+	$("#f13").addClass(pieceQ[1] ? "future" : "");
+	$("#f22").addClass(pieceQ[2] ? "future" : "");
+	$("#f23").addClass(pieceQ[3] ? "future" : "");
 	Game_round();
 	Game_roundQ();
 }

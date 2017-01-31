@@ -14,18 +14,18 @@ var timeout = 10;
 Qtable=[];
 for (var i = 0; i < 4096; i++){
 	Qtable.push(0);
-}
+
          $(document).ready(function() {
          	
             $("#train").click(function(event){
 
-            	Qtable=[];
+            	Qtable = [];
 				$.ajax({
 				    type: "POST",
 				    url: "cgi-bin/main.cgi",
 				    contentType: "application/x-www-form-urlencoded;charset=UTF-8",
 				    // les données transmises par POST sont indiquées par le paramètre data de l'objet $.ajax() : ici une simple chaîne de caractères
-				    data: {alpha:$("#alpha").val(),gamma: $("#gamma").val()},
+				    data: {alpha:$("#alpha").val(), gamma: $("#gamma").val()},
 				    error:function(msg){
 				            alert( "Erreur : " + msg );
 				            },
