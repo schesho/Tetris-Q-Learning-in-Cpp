@@ -339,9 +339,6 @@ function Game_roundQ(){
 
 			var int_representation = state_to_int(next_state);
 
-			/*console.log(-100 *h + gamma * Qtable[int_representation],Math.max(h,0))
-            console.log(next_state.slice(18,24));
-			console.log(next_state.slice(12,18));*/
 
             // h peut prendre des valeurs négatives, pas comme dans le code c++, il faut remplacer h par max(h,0) ?
 
@@ -357,22 +354,13 @@ function Game_roundQ(){
 			}
 		}
 	$("#heightQ").text(Number($("#heightQ").text())+height);
-	/*console.log("avant: ");
-	console.log(state4Q.slice(18,24));
-	console.log(state4Q.slice(12,18));
-	console.log(piece2, "position : ", position);
-	console.log("hauteur + " + height);
-	*/
+
 	
 	state4Q = definitive_state.slice();
 	piece2 = rotate(pieceQ, rotation);
 	piece2 = Gravity(piece2);
     
-	/*
-	console.log("après: ");
-	console.log(state4Q.slice(18,24));
-	console.log(state4Q.slice(12,18));
-*/
+
 	
     if(r_lQ < 10){
 			Put_a_piece(position, 3, piece2, r_lQ, 0, function(){Clean_Game(0,1);}, 1);
@@ -397,10 +385,10 @@ function Double_Game_round(){
 	piece = random_piece.slice();
 	pieceQ = random_piece.slice();
 	//console.log($.inArray(2, state4Q));
-	$("#f12").addClass(pieceQ[0] ? "future" : "");
-	$("#f13").addClass(pieceQ[1] ? "future" : "");
-	$("#f22").addClass(pieceQ[2] ? "future" : "");
-	$("#f23").addClass(pieceQ[3] ? "future" : "");
+	$("#f00").addClass(pieceQ[0] ? "future" : "");
+	$("#f01").addClass(pieceQ[1] ? "future" : "");
+	$("#f10").addClass(pieceQ[2] ? "future" : "");
+	$("#f11").addClass(pieceQ[3] ? "future" : "");
 	Game_round();
 	Game_roundQ();
 }

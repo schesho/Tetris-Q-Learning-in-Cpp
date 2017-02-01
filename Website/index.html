@@ -3,23 +3,24 @@
 <html>
 
 <head>
+<title>Qlearning Tetris</title>
 <link rel="stylesheet" href="game.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
 <script>
-
-var d = 0;
+var click = 0;
+var refreshIntervalId = 0;
 var timeout = 500;
 Qtable=[];
-
 for (var i = 0; i < 4096; i++) {
 	Qtable.push(0);
 }
-
 	$(document).ready(function () {
 
 		$("#train").click(function (event) {
+			alert("Training started! \nMight take up to 15 seconds ...")
 			Qtable = [];
 			$.ajax({
 				type: "POST",
@@ -33,7 +34,7 @@ for (var i = 0; i < 4096; i++) {
 				// le retour du CGI (sa sortie standard) est transmis au paramètre unique de la fonction configurée dans success :
 				success: function (data) {
 					var j = 0;
-					alert(data)
+					
 					for (var i = 0; i < data.length; i++) {
 						if (data.charAt(i) == ' ') {
 							Qtable.push(Number(data.slice(j, i)));
@@ -41,28 +42,35 @@ for (var i = 0; i < 4096; i++) {
 							i++;
 						}
 					}
-					alert("Entrainement effectué");
-					console.log(Qtable)
-
+					alert("Done!");
+					$("#Qstate").text("trained!");
+					$("#Qstate").css("color", "green"); 
+					$("#alpha_value").text($("#alpha").val());
+					$("#gamma_value").text($("#gamma").val());
 
 				}
 			});
 		});
 		$("#Start").click(function (event) {
 			// Rajouter Option pour choisir la vitesse ici
-			if (d == 0) {
+				if (click == 0){
+					$('#audio').append('<audio id="korobeiniki" src="korobeiniki.mp4" autoplay loop></audio>');
+					click+=1;
+				}
+				timeout = Number($("#speed").val());
+
+				if( !timeout ){
+					timeout = 500;
+				}
+				clearInterval(refreshIntervalId);
 				refreshIntervalId = setInterval(Double_Game_round, timeout);
-				d += 1;
 			}
-		});
+		);
 		$("#Stop").click(function (event) {
-
 			clearInterval(refreshIntervalId);
-			d = 0;
-
+			
 		});
 	});
-
 </script>
 <script src="game.js"></script>
 
@@ -70,13 +78,21 @@ for (var i = 0; i < 4096; i++) {
 
 </head>
   <body>
+
 <div id ="information_board">
-<div class="score">height random player :&nbsp&nbsp&nbsp<span id="height">0</span></div>
-<div class="score">height Qlearned player :&nbsp&nbsp&nbsp&nbsp <span id="heightQ">0</span><span id ="heightQ"></span></div>
-<div>Number of pieces :    <span id ="pieces_number">0</span></div>
+<div> Qtable state  &nbsp&nbsp&nbsp<span id ="Qstate">untrained</span></div>
+<div >alpha  &nbsp&nbsp&nbsp<span id="alpha_value">untrained</span></div>
+<div >gamma  &nbsp&nbsp&nbsp<span id="gamma_value">untrained</span></div>
+
+
+
+
 
 </div>
- <div id="stack">
+
+</div>
+
+<div id="stack">
   <div class="random">
 	    <div id="y0">
 	        <div  id="x00" class="brick"></div><div id="x01" class="brick"></div><div id="x02" class="brick"></div><div id="x03" class="brick"></div><div id="x04" class="brick"></div><div id="x05" class="brick"></div>
@@ -125,36 +141,69 @@ for (var i = 0; i < 4096; i++) {
 	        <div  id="x60Q" class="brick blocked Q"></div><div id="x61Q" class="brick blocked Q"></div><div id="x62Q" class="brick blocked Q"></div><div id="x63Q" class="brick blocked Q"></div><div id="x64Q" class="brick blocked Q"></div><div id="x65Q" class="brick blocked Q"></div>
 	    </div>
 
+	</div>
 
+	<div id = " control_panel">
+		<p align = "center">piece number   <span id ="pieces_number">0</span> </p>
+		<div id ="current_piece">
+		<div  id="f00" class="brick white future"></div><div id="f01" class="brick white future"></div><div id="f10" class="brick white future"></div><div id="f11" class="brick white future"></div>
+		</div>
+		<br />
+		<br />
+		<div class ="outer">
+
+				<input type = "input" class = "parameters" id = "alpha" value ="alpha"  /> 
+			 <input type = "input" class = "parameters" id = "gamma" value ="gamma" />
+			
+
+		</div>
+
+		<div class = "outer"> <button type = "submit" id = "train" >Train AI</button> </div>
+
+		<div class ="outer">
+
+			<input type = "input" id = "speed" value ="speed" size = "10" />
+			<button type = "submit" id = "Start"  >Start</button>
+			<button type = "submit" id = "Stop">Stop</button></p>
+			
+
+		</div>
+		<br />
+		<br />
+		<div class = "outer">
+			<button  onclick="document.getElementById('korobeiniki').muted=!document.getElementById('korobeiniki').muted">Mute/Unmute<i class="material-icons" style="font-size:15px">audiotrack</i></button> 
+		</div>
 
 	</div>
 
-<p align ="center"><br />Current piece  <br />
-
-    <div class ="piece">
-
-
-    	<div><div id="f10" class="brick "></div><div id="f11" class="brick "></div><div id="f12" class="brick future"></div><div id="f13" class="brick future"></div><div id="f14" class="brick "></div><div id="f15" class="brick "></div>
-    	<div><div id="f20" class="brick "></div><div id="f21" class="brick"></div><div id="f22" class="brick future"></div><div id="f23" class="brick future"></div><div id="f24" class="brick "></div><div id="f25" class="brick "></div></div>
-    	</div>
-    </div>
-
-&nbsp
-
-</p>
-	
 </div>
 
 
-<div id ="control_panel"><p align ="center">
-		<input type = "input" id = "alpha" value ="alpha" size = "10" />
-		<input type = "input" id = "gamma" value ="gamma" size = "10" />
-		<input type = "input" id = "Vitesse de jeu" value ="speed" size = "10" />
-		<button id = "Start">Start</button>
-		<button id = "Stop">Stop</button></p>
-	   <p align ="center"><input type = "button" id = "train" value = "Train AI"/></p>
 
- </div>
-  </body>
-</html>
+			
 
+	
+
+<div class ="placement">
+	<div class ="placement1"><div class="score">Random algorithm score: <span id="height">0</span></div></div>
+	<div class ="placement2"><p></p></div>
+	<div class ="placement3" ><div class="score">Qlearning alorithm score : <span id="heightQ">0</span><span id ="heightQ"></span></div></div>
+
+</div>
+
+
+
+
+<div class="description">
+<p align = "justify">To run the Qlearning algorithm please first enter two floats alpha and gamma between 0 and 1. Optimal values are around alpha = 0.02 and gamma = 0.8<br/><br/> Speed is indicating the length in ms of one round. By default it is fixed at 500 ms to slow down the game increase it up.<br/><br/><br/>This site is the final result of a 2nd year C++ course followed by 3 classmates at ENSAE PARISTECH.<br/><br/> Our goal was to implement a Qlearning algorithm in a simplified tetris version. For more information please feel free to check ours <a href = "https://github.com/schechtman/tetris_rl">github</a>.
+  <footer align ="center">
+    &copy; 2017 Nicolas Schreuder Yoan Russac Sholom Schechtman
+  </footer>
+</div>
+<div id="audio"></div>
+
+
+
+
+</body>
+</html> 
