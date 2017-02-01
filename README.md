@@ -8,12 +8,13 @@ No particular library is needed to run the code !
 
 ## Usage
 
-To run it on your machine git clone the project and :
+To run it on your machine git clone the project and with gcc execute the following command :
 
-g++ -std=c++11 test.cpp Field.cpp Piece.cpp -o whatever ./whatever
+g++ -std=c++11 main.cpp Field.cpp Piece.cpp QBrain.cpp BestActionAndUtility -o whatever ./whatever
 
 See the result on :
-http://51.15.138.105/
+
+http://163.172.179.62/
 
 ## Contributing
 
