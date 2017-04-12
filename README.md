@@ -28,6 +28,7 @@ Sholom SCHECHTMAN
 
 Yoan RUSSAC
 
+heavily inspired from: http://www.math.tau.ac.il/~mansour/rl-course/student_proj/livnat/tetris.html (Yael Bdolah & Dror Livnat)
 ## License
 
 MIT License available in LICENSE.txt
